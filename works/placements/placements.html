@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placements Analysis</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .work-header {
+            margin-bottom: 2rem;
+        }
+        
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .work-date {
+            margin-right: 1.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+        
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../pred.html" class="back-link"> <= Back to Data Science Works</a>
+        <div class="work-container">
+            <article class="work-header">
+                <h1 class="work-title">Placement Analysis</h1>
+                <div class="work-meta">
+                    <span class="work-date">February 2025</span>
+                    <span class="tag">sklearn</span>
+                    <span class="tag">lighgbm</span>
+                    <span class="tag">permutation-importance</span>
+                </div>
+            </article>
+
+            <div class="work-content">
+                <h4>Dataset: <a href="placementdata.csv"><code>placementdata.csv</code></a></h4>
+                <h4>Code: <a href="https://colab.research.google.com/drive/14lnenBLGiu09F8tMpl7oUHXWQZz1FMnS?usp=sharing">   <code>https://colab.research.google.com/drive/14lnenBLGiu09F8tMpl7oUHXWQZz1FMnS?usp=sharing</code></a></h4>
+                <h2>Introduction</h2>
+                <p>
+                    So, I really wanted an internship. I was looking over some placement datasets and my eyes fell on <a href="https://www.kaggle.com/datasets/ruchikakumbhar/placement-prediction-dataset">this</a>. Not only this was cleaned (I hate cleaning both on datasets and IRL), but, also had some good features. I was also reading a book on <a href="https://christophm.github.io/interpretable-ml-book/">Interpretable Machine Learning</a> and wanted to test permutation importance on some dataset.
+                </p>
+
+                <h2>Dataset</h2>
+                <p>
+                    This dataset contains information about the students academic and training and placement status. These were the following features: CGPA, Internships, Projects, Workshops/Certifications, ApptitudeTestScore, SoftSkillrating, ExtraCurricularActivities, PlacementTraining, SSC and HSC and finally, PlacementStatus
+                </p>
+
+                <h2>Analysis</h2>
+                <h3>EDA</h3>
+                <p>
+                    First of all, Some Basic EDA,
+                    <h4>CGPA vs Placement Status</h4>
+                    <img src="images/cgpa.png" alt="cgpa" /> <br />
+                    Those who got placed had higher CGPA than those who didn&#39;t. <br>
+                    Woah!!! What an insight, No one could have guessed it. Also, I have noticed that there are not much people around 7 CGPA, both in placed and not placed data. Maybe, there is a bias in the data or maybe there are not much people who have got around 7 CGPA. <br />
+
+                    <h4>Number of Internships vs Placement Status</h4>
+                    <img src="images/internships.png" alt="internships" /> <br />
+                    This might feel weird but in India, Most of the colleges force students to have internships and if a student didn&#39;t interned, he might loose credits. So, what students in India do if they couldn&#39;t get interned at any startup is, get fake internship certificates(or even pay to get interned). That&#39;s the reason why, there are more students who are not placed even after having internships. <br />
+
+                    <h4>CGPA vs Workshops/Certifications vs Placement Status</h4>
+                    <img src="images/cgpa_workshops.png" alt="cgpa_workshops" /> <br />
+                    There is no much difference between a student who got placed with certificate and without any certificates. The only thing mattered here is CGPA.
+
+                    <h4>CGPA vs Placement Training vs Aptitude Score vs Placement Status</h4>
+                    <img src="images/cgpa_training.png" alt="cgpa_training"  width="900" />
+                    This shows Placement Training really matters if we had a good CGPA and Aptitude Score. Placement Training are provided by the college itself to ace the placements. This means, we get to know the tips and tricks of placements before placements itself. I feel this is a really important feature.
+
+                    <h4>Soft Skills vs Placement Training vs Internships vs Placement Status (Interactive Plot)</h4>
+                    Try this below interactive plot to understand the relationship between Soft Skills, Placement Training, Internships and Placement Status.
+                    <iframe src="softskills_internships_training.html" width="1000" height="1000"></iframe>
+                </p>
+
+                <h2>Prediction</h2>
+                <p>The first thing i tried on the above dataset is
+                    <a href="https://lightgbm.readthedocs.io/en/stable/"><code>lightgbm</code></a>.
+                    This is the perfect model to try on datasets that are linearly unseperable. I got a 79.2% accuracy with lighgbm. <br />But,
+                    my main goal with this dataset was Permutation Importance. I wanted to look at which features are more important for Placement Status. The Random Forest itself has a <code>`feature importance`</code> feature, but, they doesn&#39;t handle correlated features well. This is where permutation importance comes in, which even though is computationally expensive than Random Forest, handles correlation issues better. <br /> <br />
+                    Result:
+                    <iframe src="permutation.html" width="1000" height="1000"></iframe>
+                    This is absolutely right because getting an high score in aptitude tests will always matter whether we did projects or internships.
+
+                    <br /> <br />
+                    Well, Everyone knows that having good aptitude score means higher chance of getting placed. But, what happens if i remove aptitude score? Let&#39;s, Try it out.
+                    <iframe src="permutation_without_aptitude.html" width="1000" height="1000"></iframe>
+                    Projects matter a lot. But, why was Extracurricular Activities so high with Aptitude Score but not without it? It could mean two things:
+
+                    <ul>
+                        <li>Either there is a significant correlation between Aptitude Score and Extracurricular Activities</li>
+                        <li>Or, When "Aptitude Test Score" was present, the model might have heavily relied on it because it&#39;s a strong, potentially single, numerical indicator. It could have been capturing a significant portion of the signal related to candidate quality that was also reflected in "Extra Activities" and "Workshops."</li>
+                    </ul>
+
+                    There is a very good correlation between Aptitude Score and Extracurricular Activities (0.48) and Projects and Extracurricular Activities (0.49) which may indicate that "Aptitude Test Score" is sharing information with "Extra Activities". Maybe "Aptitude Test Score" could have been acting as a proxy or surrogate for some of the information contained in these other features. <br />
+                    The Extracurricular Activites could also mean participating in events, conferences like IEEE and getting to know a lot of people which in turn may help them get a referral.
+
+                    <br /> <br />
+                    What happens if i remove the Extracurricular Activites itself?
+                    <iframe src="permutation_without_extra.html" width="1000" height="1000"></iframe>
+                    Again, Projects matter a lot. CGPA also matters. The correlation between Projects and CGPA, Projects and Workshops/Certification, Projects and Extracurricular Activities are high. This means, "Aptitude Score," "Workshops/Certifications," "Projects" and "Extracurricular Activities" could all be indicators of a general trait like "academic engagement".
+                    <br /> <br />
+                    "Projects" might also mean "applied skills" which could be an unique feature which helped a student get placed. Maybe that&#39;s the reason why, "Projects" is high even though, Aptitude Score was not present.
+                </p>
+
+                <h2>Conclusion</h2>
+                <p>Do more Projects, Get a high score in Aptitude tests and have interest in your subject to get placed.</p>
+    <script src="../script.js"></script>
+</body>
+</html>
