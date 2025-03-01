@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .quote-list {
+            margin-top: 2rem;
+            line-height: 1.8; /* Add space between quotes */
+        }
+
+        .quote-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1rem; /* Indent slightly */
+            border-left: 3px solid var(--accent-color); /* Vertical line for visual separation */
+        }
+
+        .quote-text {
+            font-size: 1.1rem;  /* Reduced font size a bit */
+            font-style: italic;
+            margin-bottom: 0.25rem;
+            color: var(--secondary-text-color); /*Added a different color for the text*/
+
+        }
+
+        .quote-author {
+            text-align: left; /* Author on the same line as the quote */
+            font-weight: bold;
+            color: var(--accent-color);
+            display: block; /* Place author below the quote */
+            margin-top: 0.25rem;
+        }
+
+        .quote-category {
+            display: inline-block;
+            background-color: var(--secondary-bg);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-top: 0.25rem;
+            color: var(--text-color); /* Ensuring good contrast */
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 2rem 0;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+  <main>
+    <a href="/" class="back-link"> <= Back to Main Page</a>
+        <section>
+            <h1>Quotes</h1>
+            <p>These are some quotes i have taken from textbooks/reddit/lectures i have read and watched. Also, some quotes are written by me (You can safely ignore them).</p>
+
+            <div class="quote-list">
+                <div class="quote-item">
+                    <p class="quote-text">"The system can only be gamed if the inputs are proxies for a causal feature, but do not actually cause the outcome"</p>
+                    <p class="quote-author">Christoph Molnar</p>
+                    <a href="https://christophm.github.io/interpretable-ml-book/interpretability-importance.html#:~:text=the%20system%20can%20only%20be%20gamed%20if%20the%20inputs%20are%20proxies%20for%20a%20causal%20feature%2C%20but%20do%20not%20actually%20cause%20the%20outcome." target="_blank"><span class="quote-category">Interpretable Machine Learning</span></a>
+                </div>
+
+                <div class="quote-item">
+                    <p class="quote-text">"Artificial intelligence is the new electricity."</p>
+                    <p class="quote-author">Andrew Ng</p>
+                    <a href="https://www.youtube.com/watch?v=21EiKfQYZXc" target="_blank"><span class="quote-category">YouTube</span></a>
+                </div>
+
+                <div class="quote-item">
+                    <p class="quote-text">"Seek not validation from hands that can falter, For even friends, with hearts that mean well, can alter."</p>
+                    <p class="quote-author">Yashas Nadig</p>
+                    <a href="https://yashasnadigsyn.github.io/quotes.html#:~:text=%22seek%20not%20validation%20from%20hands%20that%20can%20falter%2C%20for%20even%20friends%2C%20with%20hearts%20that%20mean%20well%2C%20can%20alter.%22"><span class="quote-category">yashasnadigsyn</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
