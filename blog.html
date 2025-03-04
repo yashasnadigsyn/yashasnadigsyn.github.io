@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yashas Nadig - Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --hover-glow: 0 0 15px rgba(74, 144, 226, 0.8); /* Glow effect based on accent color */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--secondary-bg);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 5rem; /* Add padding to account for fixed header */
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .blog-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .blog-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            height: 220px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--hover-glow);
+            border: 2px solid var(--accent-color);
+        }
+
+        .blog-card h3 {
+            color: var(--accent-color);
+            margin: 0;
+            padding: 0 1rem;
+            z-index: 2;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+
+        .blog-card:hover h3 {
+            opacity: 0;
+            transform: translate(-50%, -80%);
+        }
+
+        .card-description {
+            color: var(--text-color);
+            padding: 0 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            z-index: 2;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .blog-card:hover .card-description {
+            opacity: 1;
+        }
+
+        .blog-card.featured {
+            border: 1px solid var(--accent-color);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="/" class="back-link"> <= Back to Main Page</a>
+        <section id="blog">
+            <div class="blog-container">
+                <a href="blogs/first_post/first_post.html" class="blog-card">
+                    <h3>First Post</h3>
+                    <p class="card-description">Figuring things out...</p>
+                </a>
+            </div>
+            <div class="blog-container">
+                <a href="blogs/perplexity/perplexity.html" class="blog-card">
+                    <h3>Perplexity</h3>
+                    <p class="card-description">Perplexity: Before it was cool (and a search engine), it was just... data quality.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

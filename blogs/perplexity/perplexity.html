@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perplexity</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .work-header {
+            margin-bottom: 2rem;
+        }
+        
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .work-date {
+            margin-right: 1.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link"> <= Back to Blogs</a>
+        <div class="work-container">
+            <article class="work-header">
+                <h1 class="work-title">Perplexity</h1>
+                <div class="work-meta">
+                    <span class="work-date">February 2025</span>
+                    <span class="tag">ML</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">RNN</span>
+                </div>
+            </article>
+
+            <div class="work-content">
+              <p>
+                Before Perplexity was busy answering "which is the best crypto to buy in 2025?", It was quietly judging your data quality. You might be here because you typed "perplexity" into Google and got a bunch of AI search engine ads. But, if your language model is thinking, "It is raining banana tree" is a perfect valid statement, you&#39;ve got a perplexity problem! Let&#39;s make sure your language model doesn&#39;t think bananas grow on clouds using "perplexity". <br />
+                We need to understand few things before learning about perplexity. So, let&#39;s dive in!
+              </p>
+
+              <h3>How to evaluate a language model?</h3>
+              <p>
+                Let&#39;s say, you have built a language model. How do you know it is any good? The core idea is that a good language model should be able to predict the next word in a sequence with high accuracy.
+
+                <br />
+
+                Consider the following continuations of the phrase “It is raining”, as proposed by different language models:
+                <ul>
+                  <li>
+                    It is raining outside
+                  </li>
+                  <li>
+                    It is raining banana tree
+                  </li>
+                  <li>
+                    It is raining piouw;kcj pwepoiut
+                  </li>
+                </ul>
+
+                Example 1 is clearly the winner here with it&#39;s both grammatically and semantically correct statement. Example 2 is worse but atleast, the grammar is correct and it knew how to spell words. Example 3 is very worse with both grammatically and semantically nonsensical statement.
+              </p>
+
+              <h3>Likelihood and it&#39;s problems</h3>
+              <p>
+                We can measure the quality of a model by computing the likelihood of the sequence. Unfortunately, this is problematic:
+                <ul>
+                  <li>
+                    Longer sequences tend to have lower probabilities simply because they&#39;re longer and they appear a low number of times in the training dataset. <br /> A sentence in a short story will naturally have a higher probability than an entire chapter in a novel, even if the model is equally good at predicting words in both. Short sentences generally have high probabilities because they may appear more times in a book.
+                    <br />
+                    Say, You are reading a Deep Learning book. The sentence, "The weights of the" is short and more likely to appear in the book than the sentence, "The weights of the neural network", because it is long and there maybe more sentences regarding weights of models other than neural networks.
+                  </li>
+                  <li>
+                    If we train the model and want to test how well it does, we need to consider that different documents will have different lengths, and that will impact the likelihood calculation.
+                  </li>
+                </ul>
+              </p>
+
+              <h3>Enter Information Theory: Our Hero</h3>
+              <p>
+                Continued tomorrow...
+              </p>
+            </div>
+    <script src="../script.js"></script>
+</body>
+</html>

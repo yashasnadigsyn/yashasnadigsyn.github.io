@@ -14,6 +14,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#blog">Blog</a></li>
                 <li><a href="#works">Works</a></li>
                 <li><a href="#quotes">Quotes</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -68,28 +69,42 @@
             </div>
         </section>
 
+        <section id="blog">
+            <h2>Blog</h2>
+            <div class="blog-container">
+                <div class="blog-post">
+                    <span class="blog-prefix">>>> </span><a href="blogs/first_post/first_post.html" class="blog-title">First Post</a>
+                    <p class="blog-description">Figuring things out...</p>
+                </div>
+
+                <div class="blog-post">
+                    <span class="blog-prefix">>>> </span><a href="blogs/perplexity/perplexity.html" class="blog-title">Perplexity</a>
+                    <p class="blog-description">Perplexity: Before it was cool (and a search engine), it was just... data quality.</p>
+                </div>
+            </div>
+            <div class="quotes-container"> <a href="/blog.html" class="btn">View All Blogs</a> </div>
+        </section>
+
         <section id="works">
             <h2>Works</h2>
             <div class="works-container">
-                <div class="work-card">
-                    <img src="viz.jpg" alt="Visualization Works">
-                    <h3>Visualization Works</h3>
-                    <a href="/viz.html" class="btn">View Works</a>
-                </div>
-                <div class="work-card">
-                    <img src="pred.jpg" alt="Data Science Works">
-                    <h3>Data Science Works</h3>
-                    <a href="/pred.html" class="btn">View Works</a>
-                </div>
+                <ul class="works-list">
+                    <li class="work-item">
+                        <a href="works/placements/placements.html">
+                            <span class="work-icon work-icon-data"></span>
+                            <span class="work-title">Placement Analysis</span>
+                            <span class="work-description">Analysis of Placement Statistics</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
+            <div class="quotes-container"> <a href="/pred.html" class="btn">View All Works</a> </div>
         </section>
 
         <section id="quotes">
             <h2>Quotes</h2>
-            <div class="quotes-container">
-                <p>A collection of all the quotes that i liked...</p>
-                <a href="/quotes.html" class="btn">View Quotes</a>
-            </div>
+            <p>A collection of quotes that i liked...</p>
+            <div class="quotes-container"> <a href="/quotes.html" class="btn">View All Quotes</a> </div>
         </section>
 
         <section id="contact">
@@ -103,7 +118,7 @@
         </section>
     </main>
     <footer>
-        <p>&copy; 2025 Yashas Nadig. No rights reserved.</p>
+        <p>© 2025 Yashas Nadig. No rights reserved.</p>
     </footer>
     <script src="script.js"></script>
 </body>
