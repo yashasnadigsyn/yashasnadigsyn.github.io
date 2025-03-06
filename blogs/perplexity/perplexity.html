@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perplexity</title>
     <link rel="stylesheet" href="../../styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         .work-container {
             max-width: 800px;
@@ -168,8 +169,90 @@
 
               <h3>Enter Information Theory: Our Hero</h3>
               <p>
-                Continued tomorrow...
-              </p>
+                This is where Information Theory comes in.
+                A good language model tells us how likely each word is, given the context.
+                If the model is very confident that a particular word is coming next, we can use short code to represent that word.
+                If the model is uncertain, we need a longer code.
+                <br />
+
+                Checkout this video to get a intuition about <a href="https://www.youtube.com/watch?v=KHVR587oW8I">Cross Entropy by Artem Kirsanov</a>.
+                <br />
+
+                Basically, Cross-Entropy measures the average difference between the true and predicted probability distributions. 
+                Note: The formula for cross entropy loss is: $$\frac{1}{n} \sum_{t=1}^{n} (-\log P(x_t | x_{t-1}, \ldots, x_1))$$
+                <br />
+
+                Where, <br />
+                &nbsp; &nbsp; &nbsp; <code>n</code>: The total number of tokens (words) in the sequence. <br />
+                &nbsp; &nbsp; &nbsp; <code>xt</code>: The actual word observed at time step t in the sequence. <br />
+                &nbsp; &nbsp; &nbsp; <code>P(xt | xt-1, ..., x1)</code>: This is the model's prediction. <br />
+                <br />
+                Let's take an example, "Perplexity is a good metric". <br />
+                <ul>
+                    <li>
+                        <b>Word 1: "Perplexity"</b> <br />
+                        Let's say our language model predicts that the probability of "Perplexity" starting a sentence is P(Perplexity) = 0.1. <br />
+                        The surprisal is -ln(0.1) ≈ 2.3 bits. This means we need about 2.3 bits to encode the word "Perplexity".                                              
+                    </li>
+                    <li>
+                        <b>Word 2: "is"</b> <br />
+                        The model predicts P(is | Perplexity) = 0.8. The model thinks "is" is fairly likely to follow "Perplexity". <br />
+                        The surprisal is -ln(0.8) ≈ 0.22. Here, we need very few bits to encode "is" because the model was much more confident in
+                        it's prediction than the previous one. <br />
+                    </li>
+                    <li>
+                        <b>Word 3: "a"</b> <br />
+                        The model predicts P(a | Perplexity, is) = 0.9. <br />
+                        The surprisal is -ln(0.9) ≈ 0.1. Here, we need even less bits than the previous one to encode. <br />
+                    </li>
+                    <li>
+                        <b>Word 4: "good"</b> <br />
+                        The model predicts P(good| Perplexity, is, a) = 0.7. <br />
+                        The surprisal is -ln(0.7) ≈ 0.35. <br />
+                    </li>
+                    <li>
+                        <b>Word 5: "metric"</b> <br />
+                        The model predicts P(metric | Perplexity, is, a, good) = 0.4. The model thinks "metric" is unlikely to follow "good". <br />
+                        The surprisal is -ln(0.4) ≈ 0.9. <br />
+                    </li>
+                </ul>
+
+                <b>Calculating Cross-Entropy Loss</b> <br />
+                Sum of Surprisals: 2.3 + 0.22 + 0.1 + 0.35 + 0.9 ≈ 3.87 bits. <br />
+                Number of Words: n = 5 <br />
+                Cross-Entropy Loss: (1/5) * 3.87 ≈ 0.774 bits per word. <br />
+
+                This means that, on average, our language model requires about 0.774 bits to encode each word in the sentence "Perplexity is a good metric".
+            </p>
+
+            <h3>Here comes Perplexity: Our new hero</h3>
+            <p>
+            Perplexity is simply the exponential of the cross-entropy loss. <br />
+            
+            $$\exp\left(\frac{1}{n} \sum_{t=1}^{n} (-\log P(x_t | x_{t-1}, \ldots, x_1))\right)$$
+
+            Perplexity is the measure of how "confused" a language model is when predicting the next word in a sequence.
+            A lower perplexity means a more confident and better model and accurate in it's predictions.
+            <br /> <br />
+            
+            <b>Some cases:</b> <br />
+                <b>Best Case</b>(Perplexity = 1): The model always perfectly predicts the next word with a probability of 1. It's never surprised. This is the theoretical ideal, but it's practically impossible to achieve on real-world language data. <br />
+                <b>Worst Case</b>(Perplexity = Infinity): The model always predicts the next word with a probability of 0. It's completely wrong every time. <br />
+                <b>Baseline</b>(Perplexity = Vocabulary Size): If the model predicts a uniform distribution over all words in the vocabulary (i.e., it assigns equal probability to every word), then the perplexity is equal to the number of unique words in the vocabulary.
+                This represents a naive model that has no knowledge of the language. The goal is to always beat this baseline. <br />            
+            </p>
+
+            <h3>Conclusion</h3>
+            <p>
+                In simple words, Perplexity is the number of words the model has to consider when it is trying to predict the next word.
+                The lower the number, the better the language model is.
+
+            </p>
+
+            <h3>Reference</h3>
+            <p>
+                <a href="https://d2l.ai/">D2l.ai</a>
+            </p>
             </div>
     <script src="../script.js"></script>
 </body>
