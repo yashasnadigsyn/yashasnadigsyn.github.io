@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trumpism</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .work-header {
+            margin-bottom: 2rem;
+        }
+        
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .work-date {
+            margin-right: 1.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link"> <= Back to Blogs</a>
+        <div class="work-container">
+            <article class="work-header">
+                <h1 class="work-title">Trumpism</h1>
+                <div class="work-meta">
+                    <span class="work-date">April 2025</span>
+                    <span class="tag">ML</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">DL</span>
+                </div>
+            </article>
+
+            <div class="work-content">
+                <p>If you know about Donald Trump, you would probably know what Trump would say after the 
+                    words, "Make America". Of course, he would say, "Great Again". We know this because we are
+                    humans and we have brains. <br>
+                    But, let us see, which models can understand Trump better? <br>
+                    We will compare 5 language models starting from N-grams, A simple RNN, LSTM, GRU and finally, a Transformer.
+                </p>
+                <p>
+                    GitHub for full code: <a href="https://github.com/yashasnadigsyn/trumpism/">https://github.com/yashasnadigsyn/trumpism/</a> <br>
+                    Colab for comparison: <a href="https://colab.research.google.com/drive/1gd2oAOlzANl-fi6teAdQfea-Py2TASvn?usp=sharing">https://colab.research.google.com/drive/1gd2oAOlzANl-fi6teAdQfea-Py2TASvn?usp=sharing</a>
+                </p>
+                <p>
+                    The fundamental goal of a language model is to predict the probability of a sequence of words (or characters).
+                    Given some text, the model already has seen, what's the likelihood that the next word will be a specific word?
+                    The goal of the language models is to estimate the joint probability of the whole sequence: P(x1, x2,…,XT). <br>
+                    Let's say T is 5, and the sequence is "the cat sat on mat". The equation is figuring out the likelihood of that exact sequence appearing in that specific order. A good language model assigns a higher probability 
+                    to plausible sequences and a lower probability to nonsensical ones. <br> <br>
+                    The <b>Core Idea</b> of language models is to predict the next word in a sequence, given the words that came before.
+                    The obvious question is how to model a document, or a sequence of tokens? <br>
+                    We use the chain rule of probability applied to a sequence of words: P(x1, x2, …, xT) = P(x1) * P(x2 | x1) * … * P(xT | x1, …, xT-1)
+                </p>
+                <h3>
+                    N-grams
+                </h3>
+                <p>
+                    N-gram is more of a statistical model than a deep learning model. All the other models in this
+                    blog uses neural networks except N-gram.
+                    N-grams uses <a href="https://en.wikipedia.org/wiki/Markov_property"><b>markov property</b></a> which is basically 
+                    a sequence has the Markov property (of order 1) if the probability of the next word depends only on the current word. Higher orders mean it depends on more previous words. <br>
+                    N-grams are models that use this Markov assumption. "n" represents the number of words considered in the context. For example, n=2 (bigrams) mean that probability of a word depends 
+                    only on the previous word and for n=3(trigrams), probability of a word depends only on the previous two words.
+                    Obviously, I am not going to explain the whole N-gram here. But, if you want to learn more, <a href="https://web.stanford.edu/~jurafsky/slp3/3.pdf">look here</a>.
+                </p>
+                <p>
+                    I created a simple streamlit app to see how N-grams work for Trump Transcript. The vocab size is 
+                    nearly 8k. Comparing this to GPT-3, which has 50k vocab size. So, this model is very minimal.
+                </p>
+                <iframe
+                    src="https://trumpgen.streamlit.app?embed=true"
+                    style="height: 450px; width: 100%;">
+                </iframe>
+                <h4>Demo: <a href="https://trumpgen.streamlit.app/">Streamlit</a></h4>
+                <p>
+                    <h4><b>Result: </b></h4>
+                    <b>Given: </b> make america <br>
+                    <b>Generated: </b> great again . <br>
+                </p>
+
+                <h3>RNN</h3>
+                <p>
+                    Markov models (and n-grams) have a fundamental limitation: they can only "remember" a fixed number of previous words. If we want to capture long-range dependencies in text, we need to increase the order of the Markov model (the value of n).
+                    However, increasing n leads to an exponential increase in the number of parameters the model needs to store. If |V| is the size of our vocabulary, then an n-gram model needs to store |V|^n numbers to represent all the probabilities. This becomes computationally infeasible very quickly. A moderate vocabulary of 20,000 words with n=5 would need 3.2 * 1021 parameters!
+                    Thus, RNNs came and solved some pretty serious problems which could not be solved by N-grams.
+                </p>
+                <h4>Demo: <a href="https://colab.research.google.com/drive/1gd2oAOlzANl-fi6teAdQfea-Py2TASvn#scrollTo=nJmzCAv5EmFn&line=1&uniqifier=1">Colab</a></h4>
+                <p>
+                    <h4><b>Result: </b></h4>
+                    <b>Given: </b> make america <br>
+                    <b>Generated: </b> white community the best <br>
+                </p>
+
+                <h3>LSTM</h3>
+                <p>
+                    LSTMs are essentially RNNs with a special "memory cell" that replaces the ordinary recurrent node in standard RNNs.
+                    This memory cell is the heart of the LSTM and provides a mechanism for selectively remembering or forgetting information over time.
+                    Each LSTM contains both long-term memory (weights) and short-term memory (activations), as well as a special medium-term memory.
+                    The memory cell has an internal state and a number of "gates" that control the flow of information into and out of the cell. <br>
+                    <ul>
+                        <li>Input Gate: How much of the new input should affect the internal state.</li>
+                        <li>Forget Gate: Whether the current value of the memory should be flushed (set to zero).</li>
+                        <li>Output Gate: Whether the internal state of the neuron is allowed to affect the cell's output.</li>
+                    </ul>    
+                </p>
+                <h4>Demo: <a href="https://colab.research.google.com/drive/1gd2oAOlzANl-fi6teAdQfea-Py2TASvn#scrollTo=ZyWng0iMIs_Z&line=1&uniqifier=1">Colab</a></h4>
+                <p>
+                    <h4><b>Result: </b></h4>
+                    <b>Given: </b> make america <br>
+                    <b>Generated: </b> really as i was talking about <br>
+                </p>
+
+                <h3>GRU</h3>
+                <p>
+                    RNNs and especially LSTMs became very successful in the 2010s for handling sequential data (like text, time series, etc.). They were great at remembering information over time. However, LSTMs, while powerful, can be computationally expensive. <br>
+                    The GRU architecture was developed as a more computationally efficient alternative to LSTMs. The goal was to simplify the LSTM's gating mechanism while retaining its ability to capture long-range dependencies and achieve comparable performance in many sequence modeling tasks.
+                    Here, the LSTM's three gates are replaced by two: the reset gate and the update gate. <br>
+                    The reset gate controls how much of the previous state we still want to remember. <br>
+                    The update gate controls how much the new input and old hidden state to be in new hidden state.
+                </p>
+                <h4>Demo: <a href="https://colab.research.google.com/drive/1gd2oAOlzANl-fi6teAdQfea-Py2TASvn#scrollTo=vARjjx5dQMrZ&line=2&uniqifier=1">Colab</a></h4>
+                <p>
+                    <h4><b>Result: </b></h4>
+                    <b>Given: </b> make america <br>
+                    <b>Generated: </b> community and other responsibilities with a through line <br>
+                </p>
+
+                <h3>Transformers</h3>
+                <p>
+                    Finally, we are here at Transformers. 
+                    While deep learning in 2010s was largely driven by MLPs, CNNs, and RNNs, the architecture itself hadn't changed drastically from older neural network concepts.
+                    Innovations were more in training techniques (ReLU, BatchNorm, etc.) and leveraging more compute and data. <br>
+                    Transformer architecture was a big fundamental shift. The "core idea" behind Transformers is the attention mechanism. This was initially proposed as an enhancement for encoder-decoder RNNs in machine translation.
+                    I am not going to give you the generated output for this part because it really takes a lot of time to run it. <br>
+                    But, I will give you the code if you wish to run it: <a href="https://colab.research.google.com/drive/1gd2oAOlzANl-fi6teAdQfea-Py2TASvn#scrollTo=QalL2X9qVSfl&line=1&uniqifier=1">Code for Transformers</a>. <br>
+                    The above Transformers code is completely inspired and i have also copied several parts from <a href="https://wingedsheep.com/building-a-language-model/">wingedsheep</a>. <br>
+                    I edited the code to use our Trump Transcript dataset and have added some preprocessing techniques. 
+                </p>
+
+                <h3>Conclusion</h3>
+                <p>
+                    Looking at the results, we see an interesting, almost counter-intuitive outcome: the simplest model, the N-gram, 
+                    produced the exact phrase "great again," arguably the most expected completion given the dataset. The more sophisticated RNN, LSTM, and GRU models, however, generated different, 
+                    less predictable sequences. <br> <br>
+
+                    Why did this happen? The N-gram model's success here highlights its strength: memorizing and retrieving high-frequency sequences.
+                    The phrase "make america great again" is undoubtedly one of the most common sequences in the Trump transcript corpus. 
+                    N-grams, relying purely on conditional probabilities of adjacent words (like P(great | america) or P(great | make america)), excel at capturing these extremely frequent patterns. <br><br>
+
+                    However, this is what we exactly we don't want the model to do. We want the model to generalize not just memorize and repeat the same sentence everytime.
+                    Rare words like rarely appear or never appear and one big problem with N-grams are, they can easily get stuck in loops, repeatedly outputting common phrases without progressing meaningfully. <br><br>
+
+                    The RNNs (or LSTMS/GRU) are generalize better and give different outputs everytime which is much natural. Also, another problem is that, our vocabulary is very small (8k) and these models often require significantly more training data and epochs than used here to fully converge. <br><br>
+
+                    Finally, the Transformer architecture represents the current state-of-the-art, largely because its self-attention mechanism directly addresses the long-range dependency problem far more effectively than even LSTMs or GRUs. 
+                    Also, the calculation for each position can be done in parallel once the initial queries, keys, and values are computed. There are no step-by-step dependencies like in RNNs. This is why Transformers are state-of-the-art models used for LLMs.
+                </p>
+
+                <h3>Reference</h3>
+                <p>
+                    <a href="https://d2l.ai/">D2l.ai</a> <br>
+                    <a href="https://wingedsheep.com/building-a-language-model/">wingedsheep</a>
+                </p>
+            </div>
+    <script src="../script.js"></script>
+</body>
+</html>
