@@ -648,3 +648,6 @@ Illustrates building regex for specific formats like prices and disk sizes. Goal
 
     💡 **Tip: Period Disambiguation is Key:** Successfully handling the different uses of the period is the core challenge in sentence segmentation for languages like English. Modern toolkits often have sophisticated rules or models for this.
 
+## 2.8 Minimum Edit Distance
+
+* Watch YouTube for Dynamic Programming.
