@@ -4,5 +4,5 @@ relative_links:
   enabled: true
   collections: true
 include:
-  - notes/regex.md
-  - notes/*
+  - notes/NLP/*
+  - notes/CV/*
