@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foods & Bengaluru</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .work-header {
+            margin-bottom: 2rem;
+        }
+        
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .work-date {
+            margin-right: 1.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link"> <= Back to Blogs</a>
+        <div class="work-container">
+            <article class="work-header">
+                <h1 class="work-title">Foods & Bengaluru</h1>
+                <div class="work-meta">
+                    <span class="work-date">April 2025</span>
+                    <span class="tag">DS</span>
+                    <span class="tag">DA</span>
+                    <span class="tag">Polars</span>
+                </div>
+            </article>
+
+            <div class="work-content">
+                <p>
+                    Have you ever walk past a shop and thought to yourself, "How is this 
+                    shop even making money? Who are their customers?". These are the questions
+                    that arise in my mind when i look at cafes or restaurants in zomato. 
+                    For some reason, I always thought foreign cuisines except something 
+                    like Chinese or Korean, are not popular in India (especially Bengaluru).
+                    And, I am wrong.
+                </p>
+                <p>
+                    I used zomato's data to get some insights about Bengaluru's Food Culture. <br>
+                    Acknowledgement: I know zomato doesn't represent whole Bengaluru and I know
+                    most people doesn't even use zomato (including me) in Benglauru. 
+                    But, This is the only data we have now and I just wanna see how Bengaluru's 
+                    Zomato Foodies order.
+                </p>
+                <h2>Which restaurant is most popular among Zomato Bengalurians?</h2>
+                <img src="highest_rated_resto.png" alt="highest_rated_resto" width="100%">
+                <p>
+                    Yeah, so, the answer is Asia Kitchen. That's it. The Blog's over.
+                </p>
+                <br>
+                <br>
+                <p>
+                    Buuuuuut, Wait, Have you noticed something? The one who got 4.9 rating with
+                    2200 votes and the one who got 4.9 rating with 16000 votes are at the same
+                    level. This is a unfair to Byg Brewski. To overcome this, we use IMDB's
+                    weighted average formula for calculating a reasonable rating.
+                </p>
+                <p>
+                    Thanks to <a href="https://www.reddit.com/r/statistics/comments/1niai5/comment/ccizasx/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button">this</a> 
+                    comment on reddit which was over 12 years old for explaining it clearly.
+                    Basically, Weighted Average formula values items that have a higher average rating 
+                    and a higher number of votes more than those with just a high average rating.
+                    With this, we get:
+                </p>
+                <img src="highest_weighted_resto.png" alt="highest_weighted_resto" width="100%">
+                <p>
+                    CTR is still at 10th place. :(
+                </p>
+                <br>
+                <h2>Areas with Most and Least rated restaurants?</h2>
+                <p>
+                    This is a no brainer. Places like Koramangala or Indiranagar has more number of
+                    zomato users and dominate this plot. 
+                    Being an IT area, obviously, they will have a upper hand.
+                    I agree and the results also show the same.
+                </p>
+                <p>
+                    For this, I divided the data into two parts: <br>
+                    Most Popular Areas - All the restaurants above 4 Avg. rating <br>
+                    Least Popular Areas - All the restaurants below 3 Avg. rating
+                </p>
+                <p>Here are the results:</p>
+                <img src="most_popular_areas.png" alt="most_popular_areas" width="100%">
+                <p>
+                    Don't ask me why but IT areas like BTM and Marathalli also have some
+                    restaurants with very low ratings. The fact that only one restaurant had 
+                    rating below 2 fascinates me. Are there no bad restaurants in Bengaluru??
+                </p>
+                <img src="least_popular_areas.png" alt="least_popular_areas" width="100%">
+                <h2>Most Enjoyed Cuisines by Zomato Bengalurians?</h2>
+                <p>What do you think?</p>
+                <p>
+                    a. Chinese <br>
+                    b. Korean <br>
+                    c. North Indian <br>
+                    d. South Indian <br>
+                </p> 
+                <p>
+                    The most popular cuisine is Cantonese which comes under Chinese. So, you are 
+                    right if you picked Chinese. Let's play again? Which cuisine is the second most popular among 
+                    Zomato Bengalurians?
+                </p>
+                <p>
+                    a. Mediterranean <br>
+                    b. Korean <br>
+                    c. North Indian <br>
+                    d. South Indian <br>
+                </p>
+                <br><br><br>
+                <p>
+                    Well......
+                </p>
+                <img src="cuisines.png" alt="cuisines" width="100%">
+                <p>
+                    What the hell is Tex-Mex??
+                    Is there even a cuisine named Tex-Mex? And, even if there is why is it
+                    trending in Bengaluru without me knowing about it? Just Why? 
+                    I checked about it and it is nothing but the mix of Mexican and Texas food.
+                    So, the burgers and burritos comes under this category. Why can't they just
+                    call it "North American". It would have been better.
+                </p>
+                <p>
+                    The following cuisines can be easily guessed like Mediterranean and 
+                    Sushi which are popular in Bengaluru. Surprisingly, African is popular too!
+                    Never heard of a trending African restaurant.
+                    Also, I don't even understand why the hell Japanese and Sushi 
+                    are two different cuisines?
+                </p>
+                <p>
+                    Curious me, tried to look at where does Indian cuisine comes in.
+                    North Indian comes at 4.08 and South Indian at 4.04.
+                    And, there is a new cuisine called Modern Indian which is making foreign 
+                    dishes in Indian style which is interesting.
+                </p>
+                <h3>Conclusion</h3>
+                <p>
+                    As i have already told, this data doesn't represent whole Bengaluru. It just
+                    represents Zomato Bengalurians. But, this was a fun exploration. I learned 
+                    some new words to show how "Tex-Mex" i am. 
+                </p>
+            </div>
+    <script src="../script.js"></script>
+</body>
+</html>
