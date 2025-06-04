@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header id="navbar">
+    <!-- <header id="navbar">
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#research">Research</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#blog">Blog</a></li>
                 <li><a href="#works">Works</a></li>
@@ -20,7 +21,7 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
-    </header>
+    </header> -->
 
     <main>
         <section id="home" class="hero">
@@ -33,7 +34,7 @@
             <p>I'm a 3rd year student at MSRUAS, studying B.Tech in Artificial Intelligence and Machine Learning. My focus is on NLP and Data Science.</p>
         </section>
 
-        <section id="skills">
+        <!-- <section id="skills">
             <h2>Skills</h2>
             <div class="skills-container">
                 <div class="skill"><img src="icons/python.svg" alt="Python icon">Python</div>
@@ -42,6 +43,24 @@
                 <div class="skill"><img src="icons/sql.svg" alt="SQL icon">SQL</div>
                 <div class="skill"><img src="icons/tableau.svg" alt="Tableau icon">Tableau</div>
                 <div class="skill"><img src="icons/powerbi.svg" alt="PowerBI icon">PowerBI</div>
+            </div>
+        </section> -->
+
+        <section id="research">
+            <h2>Research & Papers</h2>
+            <div class="papers-container">
+                <div class="paper-item">
+                    <a href="https://www.researchgate.net/publication/388087265_Towards_Scalable_SDG_Classification_of_Startups_using_Machine_Learning_and_Large_Language_Models" class="paper-title">Towards Scalable SDG Classification of Startups using Machine Learning and Large Language Models</a>
+                    <p class="paper-description">Conference: International Conference on Entrepreneurship and Entrepreneurial Ecosystems in the Global Economy - REEN Conference (IISc Bangalore)</p>
+                </div>
+                <div class="paper-item">
+                    <a href="https://www.researchgate.net/publication/390942900_Synergizing_Innovation_Mapping_Sustainability_Startup_Clusters?_sg%5B0%5D=Wa9TOJD4t7wXao4Htymz0GwM-d4rY9qbsp1kt9FJmdYyIdd0Z62d3j8jmMEJvw-cfZh7na70zLs4yyF8qB6yVbJttV8viyBiuKZocNnp._Pu-y0S72ymeqtX2jFI3l2DpKu_gGQXnQxQCCIXKZJ9BgVW2PEipQ-fZP6emXnljWt7rxX4HtCYIZgofI8LNQg&_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6ImhvbWUiLCJwYWdlIjoicHJvZmlsZSIsInBvc2l0aW9uIjoicGFnZUNvbnRlbnQifX0" class="paper-title">Synergizing Innovation: Mapping Sustainability Startup Clusters</a>
+                    <p class="paper-description">Conference: IMPeC 2025 (IIM Sambhalpur)</p>
+                </div>
+                <div class="paper-item">
+                    <a href="https://www.researchgate.net/publication/390160887_Analysis_of_Support_Systems_and_Challenges_in_Deep_Tech_Startups_A_Multi-Criteria_Decision_Making_Approach_to_Revenue_Growth_Impact" class="paper-title">Analysis of Support Systems and Challenges in Deep Tech Startups: A Multi-Criteria Decision Making Approach to Revenue Growth Impact</a>
+                    <p class="paper-description">Conference: International Conference on Deep-Tech and Policy: Building a Sustainable Deep-Tech Startup Ecosystem (Ramaiah University)</p>
+                </div>
             </div>
         </section>
 
@@ -91,22 +110,28 @@
         <section id="works">
             <h2>Works</h2>
             <div class="works-container">
-                <ul class="works-list">
-                    <li class="work-item">
-                        <a href="works/placements/placements.html">
-                            <span class="work-icon work-icon-data"></span>
-                            <span class="work-title">Placement Analysis</span>
-                            <span class="work-description">Analysis of Placement Statistics</span>
-                        </a>
-                    </li>
-                    <li class="work-item">
-                        <a href="https://rethinking-point-estimate-demo.streamlit.app/">
-                            <span class="work-icon work-icon-data"></span>
-                            <span class="work-title">Finding Point Estimate</span>
-                            <span class="work-description">A demo for the game described in Chapter 3 from Statistical Rethinking</span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="work-card">
+                    <a href="works/placements/placements.html">
+                        <div class="work-header">
+                            <div class="work-icon work-icon-data"></div>
+                            <div>
+                                <h3 class="work-title">Placement Analysis</h3>
+                            </div>
+                        </div>
+                        <p class="work-description">Comprehensive analysis of placement statistics, trends, and insights to help understand recruitment patterns and outcomes.</p>
+                    </a>
+                </div>
+                <div class="work-card">
+                    <a href="https://rethinking-point-estimate-demo.streamlit.app/">
+                        <div class="work-header">
+                            <div class="work-icon work-icon-ml"></div>
+                            <div>
+                                <h3 class="work-title">Finding Point Estimate</h3>
+                            </div>
+                        </div>
+                        <p class="work-description">Interactive demo for the statistical game described in Chapter 3 from Statistical Rethinking, exploring Bayesian inference concepts.</p>
+                    </a>
+                </div>
             </div>
             <div class="quotes-container"> <a href="/pred.html" class="btn">View All Works</a> </div>
         </section>

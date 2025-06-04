@@ -104,6 +104,50 @@ h3 {
   height: 24px;
 }
 
+/* Research Papers Section */
+#research {
+  margin-bottom: 4rem;
+}
+
+.papers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 700px;
+  margin: 0; /* MODIFIED: Was 'margin: 0 auto;' for centering, now 'margin: 0;' for left alignment */
+}
+
+.paper-item {
+  padding: 1rem;
+  background-color: var(--secondary-bg);
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.paper-item:hover {
+  background-color: var(--card-bg);
+}
+
+.paper-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  margin-bottom: 0.3rem;
+  text-decoration: none;
+  display: block;
+}
+
+.paper-title:hover {
+  color: #5ba0f2;
+}
+
+.paper-description {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  line-height: 1.4;
+  margin: 0;
+}
+
 .project-container,
 .works-container {
   display: grid;
@@ -188,152 +232,193 @@ footer {
 
 /* Blog Section - Console Output Style */
 #blog .blog-container {
-    background-color: var(--secondary-bg); /* Optional: Add a background for the console feel */
-    padding: 20px;
-    border-radius: 5px;
-    font-family: monospace, monospace; /* Use a monospace font for the terminal look */
-    font-size: 1rem;
+  background-color: var(--secondary-bg); /* Optional: Add a background for the console feel */
+  padding: 20px;
+  border-radius: 5px;
+  font-family: monospace, monospace; /* Use a monospace font for the terminal look */
+  font-size: 1rem;
 }
 
 #blog .blog-post {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 #blog .blog-prefix {
-    color: #00ff00; /* Green color for the prefix, like a console prompt */
-    margin-right: 5px;
+  color: #00ff00; /* Green color for the prefix, like a console prompt */
+  margin-right: 5px;
 }
 
 #blog .blog-title {
-    color: var(--accent-color); /* Blue for blog titles */
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: var(--accent-color); /* Blue for blog titles */
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 #blog .blog-title:hover {
-    color: #00ff00; /* Hover color - can be the prefix color or another accent */
-    text-decoration: underline;
+  color: #00ff00; /* Hover color - can be the prefix color or another accent */
+  text-decoration: underline;
 }
 
 #blog .blog-description {
-    color: var(--text-color);
-    margin-left: 25px; /* Indent description to align under the title */
-    font-size: 0.9rem;
+  color: var(--text-color);
+  margin-left: 25px; /* Indent description to align under the title */
+  font-size: 0.9rem;
 }
 
 #blog .btn {
-    margin-top: 20px; /* Adjust button margin as needed */
-    display: block; /* Make button full width below the container if desired */
-    width: fit-content; /* Or keep it inline and adjust margin */
+  margin-top: 20px; /* Adjust button margin as needed */
+  display: block; /* Make button full width below the container if desired */
+  width: fit-content; /* Or keep it inline and adjust margin */
 }
 
-/* Works Section - Interactive List with Icons */
+/* Works Section - Modern Card Grid */
 #works .works-container {
-    padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 20px 0;
 }
 
-#works .works-list {
-    list-style: none; /* Remove default list bullets */
-    padding: 0;
+#works .work-card {
+  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--card-bg) 100%);
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(74, 144, 226, 0.1);
 }
 
-#works .work-item {
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: var(--secondary-bg);
-    transition: background-color 0.3s ease, transform 0.3s ease;
+#works .work-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color), #5ba0f2);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
-#works .work-item:hover {
-    background-color: var(--card-bg); /* Slightly darker on hover */
-    transform: translateX(5px); /* Subtle slide on hover */
+#works .work-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: var(--accent-color);
 }
 
-#works .work-item a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--text-color);
+#works .work-card:hover::before {
+  transform: scaleX(1);
+}
+
+#works .work-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+#works .work-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
 #works .work-icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%; /* Circle shape for icons */
-    margin-right: 15px;
-    background-color: var(--accent-color); /* Default icon color */
-    opacity: 0.8; /* Slightly transparent */
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-color), #5ba0f2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Define different icon styles using pseudo-elements or different background colors/shapes */
-#works .work-icon-web {
-    /* Example: Web icon - could be a simple square */
-    border-radius: 0%; /* Make it a square */
+#works .work-icon::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
 }
 
-#works .work-icon-data {
-    /* Example: Data icon - could be a diamond shape */
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamond shape */
+#works .work-icon-data::after {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  border-radius: 0;
 }
 
-#works .work-icon-ml {
-    /* Example: ML icon - could be a triangle */
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triangle shape */
+#works .work-icon-web::after {
+  border-radius: 4px;
 }
 
+#works .work-icon-ml::after {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  border-radius: 0;
+}
 
 #works .work-title {
-    font-weight: bold;
-    margin-right: 10px;
-    color: var(--accent-color);
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  margin: 0;
+  line-height: 1.2;
 }
 
 #works .work-description {
-    font-size: 0.9rem;
-    flex-grow: 1; /* Take remaining space */
-    opacity: 0.7; /* Slightly less prominent description */
+  color: #b0b0b0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
 }
 
-#works .quotes-container { /* Reusing quotes container for button alignment */
-    margin-top: 20px;
-    text-align: left; /* Align button to the left of the list */
+#works .work-card:hover .work-title {
+  color: #5ba0f2;
 }
 
+#works .work-card:hover .work-description {
+  color: var(--text-color);
+}
+
+#works .quotes-container {
+  margin-top: 2rem;
+  text-align: center;
+}
 
 /* Quotes Section - Spotlight Quotes */
 #quotes .spotlight-quotes {
-    display: flex;
-    gap: 2rem; /* Space between quotes */
-    padding: 3rem 2rem;
-    position: relative; /* For spotlight effect positioning */
+  display: flex;
+  gap: 2rem; /* Space between quotes */
+  padding: 3rem 2rem;
+  position: relative; /* For spotlight effect positioning */
 }
 
 #quotes .quote {
-    background-color: var(--secondary-bg);
-    padding: 2rem;
-    border-radius: 10px;
-    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0.6; /* Dimmed opacity for non-spotlight quotes */
-    transform: scale(0.8); /* Smaller scale for non-spotlight quotes */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: var(--secondary-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0.6; /* Dimmed opacity for non-spotlight quotes */
+  transform: scale(0.8); /* Smaller scale for non-spotlight quotes */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #quotes .quote.spotlight {
-    opacity: 1; /* Full opacity for spotlight quote */
-    transform: scale(1.1); /* Larger scale for spotlight quote */
-    z-index: 10; /* Ensure spotlight quote is on top */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow for spotlight */
-    background-color: var(--card-bg); /* Slightly darker background for spotlight to stand out more */
+  opacity: 1; /* Full opacity for spotlight quote */
+  transform: scale(1.1); /* Larger scale for spotlight quote */
+  z-index: 10; /* Ensure spotlight quote is on top */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow for spotlight */
+  background-color: var(--card-bg); /* Slightly darker background for spotlight to stand out more */
 }
 
 #quotes .quote p {
-    font-style: italic;
-    font-size: 1.1rem;
-    margin: 0;
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0;
 }
 
 #quotes .quotes-container:last-child { /* Targeting the button container */
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
