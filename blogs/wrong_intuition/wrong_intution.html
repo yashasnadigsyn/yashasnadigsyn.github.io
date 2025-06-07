@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrong Intuition</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .work-header {
+            margin-bottom: 2rem;
+        }
+        
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .work-date {
+            margin-right: 1.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link"> <= Back to Blogs</a>
+        <div class="work-container">
+            <article class="work-header">
+                <h1 class="work-title">Wrong Intuition</h1>
+                <div class="work-meta">
+                    <span class="work-date">June 2025</span>
+                    <span class="tag">DS</span>
+                    <span class="tag">Viz</span>
+                    <span class="tag">ML</span>
+                </div>
+            </article>
+
+            <div class="work-content">
+                <p>
+                    I had this idea when i was reading a book related to 
+                    <a href="https://fraud-detection-handbook.github.io/fraud-detection-handbook/">fraudulent systems.</a>
+                    The fraudulent domain has a very much imbalanced dataset. According to the same <a href="https://fraud-detection-handbook.github.io/fraud-detection-handbook/Chapter_3_GettingStarted/Baseline_RealWorldData.html#:~:text=the%20number%20of%20daily%20fraudulent%20transactions%20was%20around%201000%2C%20giving%20a%20ratio%20of%20fraudulent%20transactions%20of%20around%200.25%25">book</a>,
+                    the ratio of fraudulent transactions is about 0.25% (not 25%).
+                    So, for every 10,000 transactions, there are only about 25 fraudulent transactions.
+                    <br>
+                    This introduces the main problem of this domain. The Imbalanced Data. 
+                    This is a real problem because the model learns very little from minority class and 
+                    creates models that are biased towards majority class.
+                </p>
+                 <p>
+                    With Imabalanced Data, accuracy is an another problem. <br>
+                    Consider the following data: 5000 samples, 4988 non-fraudulent transactions 
+                    and 12 fraudulent transactions(0.25%). 
+                    Now, consider this random model that predicted all transactions as 
+                    non-fraudulent. What is the accuracy? <br>
+                    Well, It is 99.76%!!!. So, even if the model is just <code>"return non-fraudulent"</code>
+                    for every transaction, 
+                    it has an excellent accuracy and that's why other perfomance metrics like precision, recall
+                    or F1-Score is used in fraudulent systems.
+                </p>
+                <p>
+                    This will be a very simple blog (not even a blog). No Conclusions or
+                    takeaways. Just about how my intuition was wrong.
+                </p>
+                <p>
+                    To solve this imbalanced dataset problem, we use methods like 
+                    <a href="https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analysis">undersampling and oversampling</a>.
+
+                    Undersampling is basically reducing the dataset size of majority class till the numbers 
+                    are similar to minority class.
+                    Oversampling is increasing the size of minority class till the numbers are
+                    similar to majority class.
+                    Checkout SMOTE and ADASYN.
+                </p>
+                <p>
+                    Coming back to my idea, I created a dataset using sklearn's make_classification. 
+
+                    <img src="original_scatter.png" alt="original_scatter">
+                    <br><br>
+
+                    and, I created a decision tree for this dataset and plotted the decision boundary.
+                    <img src="original_pred_with_points.png" alt="original_pred_with_points">
+                    <br><br>
+
+                    As you can see, there are so many points that gets overlapped and is pretty 
+                    hard to create a decision boundary. Here is a plot of decision boundary without the 
+                    points.
+                    <img src="original_pred_without_points.png" alt="original_pred_without_points">
+                    <br><br>
+
+                    I got the F1-Score of 0.47 with a Decision Tree of max_depth=4.
+                </p>
+                <p>
+                    To solve this problem of extremely imbalanced data, we do undersampling.
+                    There are many different methods in undersampling, but, my idea was this:
+                    <ul>
+                        <li>For each point from minority class, find 5 nearest neighbours.</li>
+                        <li>If a neighbour is from majority class, remove that point.</li>
+                    </ul>
+                    So, this is what i ended up with.
+                    <br>
+                    <img src="resampled_scatter.png" alt="resampled_scatter">
+                    <br><br>
+
+                    Again, I created a decision tree for this data and plotted the decision boundary.
+                    <img src="resampled_pred_with_points.png" alt="resampled_pred_with_points">
+                    <br><br>
+
+                    Here is a plot of this decision boundary without the points.
+                    <img src="resampled_pred_without_points.png" alt="resampled_pred_without_points">
+                    <br><br>
+
+                    We can clearly see the yellow part (minority class region) much larger than the 
+                    previous one in the high dense region.
+                    <br>
+                    I ended up with a F1-Score of 0.69. Much better than the previous one. 
+                    So, yeah, I have a much better F1-Score than previous one and i thought this was a fake 
+                    reality the model was living in. If i gave it the original messy data instead of this fake reality,
+                    the model would perform worse is what i thought.
+                </p>
+                <p>
+                    So, I did that and here is the plot.
+                    <br>
+                    <img src="final_plot.png" alt="final_plot">
+                    <br><br>
+
+                    I ended up with F1-Score of 0.63. Much better than the first model which 
+                    knew about the "original messy world" and was not living in this "fake reality".
+                </p>
+                <p>
+                    So, why was my intuition wrong? 
+                    The key is understanding what the model is learning. 
+                    Machine learning models are trying to find the underlying signal amidst the noise. 
+                    Think of the majority class as the noise and minority class as the signal. <br>
+                    To understand the next part, you have to understand F1-Score.
+                    Basically, think of F1-Score as a metric which takes in opinions of both
+                    majority class points and minority class points and gives a score.
+                </p>
+                <p>    
+                    The problem is with the first model which was afraid of offending the 
+                    majority class, created a decision boundary such that, in the dense part, 
+                    the much larger region was given to majority class.
+                    It was afraid of the sheer number of points from the majority class in dense part.
+                    Since, F1-Score takes opinions of both majority and minority classes. 
+                    The minority classes were against this model because it had a very very little region 
+                    in the dense part. (Look at 3rd image)
+                </p>
+                <p>
+                    The second model had much less majority class points and created a decision boundary
+                    such that even the minority class got a good amount of region in the dense part.
+                    and, since, F1-Score doesn't care about how much instances are correct from the total and 
+                    instead considers both majority and minority class. 
+                    Both the majority and minority classes were happy because they both got a good amount 
+                    of region.
+                </p>
+                <p>
+                    My cleaning idea removed the most confusing noise(majority class). By removing the noise,
+                    I wasn't creating a fake reality rather amplifying the signal.
+                    With all the noise gone, the Decision Tree could clearly see the true pattern
+                    and was more confident in giving larger region to the minority class.
+                </p>
+                <p>
+                    Aaaaand.... This is how i recreated the algorithm 
+                    <a href="https://imbalanced-learn.org/stable/references/generated/imblearn.under_sampling.EditedNearestNeighbours.html">EditedNearestNeighbours</a>.
+                    <br>
+                    Actually, EditedNearestNeighbours(ENN) is even more complex than my idea.
+                    The idea of ENN is:
+                    <ul>
+                        <li>
+                            For each point that belongs to majority class, find KNN. 
+                            If the majority of these neighbours are from minority class, 
+                            remove this point.
+                        </li>
+                        <li>
+                            For each point that belongs to minority class, find KNN.
+                            If the majority of these neighbours are from majority class, 
+                            remove all those points.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    That's how my intuition was wrong. I thought by training a model 
+                    on a 'simpler' world would make it fail in the 'real' messy one. I was wrong.
+                    The 'simplified' world made the model to give attention to the minority class 
+                    even though they were in minority.
+                    <br>
+                    We often focus on picking the most complex models or 
+                    tuning hyperparameters, but this experiment showed me that 
+                    the real kicker is the data itself.
+                    <br>
+                    By just tuning the data, we can use the simple model itself rather than 
+                    a complex one.
+                </p>
+                <p>
+                    Btw, If you want to reproduce this scenario yourselves, 
+                    <a href="main.ipynb">here</a> is the ipynb file.
+                </p>
+            </div>
+    <script src="../script.js"></script>
+</body>
+</html>
