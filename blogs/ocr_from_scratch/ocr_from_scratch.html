@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing an OCR from Scratch</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../prism.css">
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .work-header {
+            margin-bottom: 2rem;
+        }
+
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+
+        .work-date {
+            margin-right: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th,
+        table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link">
+            <= Back to Blogs</a>
+                <div class="work-container">
+                    <article class="work-header">
+                        <h1 class="work-title">Writing OCR from Scratch... without Neural Networks</h1>
+                        <div class="work-meta">
+                            <span class="work-date">June 2025</span>
+                            <span class="tag">Math</span>
+                            <span class="tag">CV</span>
+                            <span class="tag">Image Processing</span>
+                        </div>
+                    </article>
+
+                    <div class="work-content">
+                        <p>
+                            When you think of building Optical Character Recognition (OCR) today,
+                            you probably think of using powerful libraries like Tesseract or massive
+                            neural networks trained on millions of images. 
+                            But, How were people doing it in 90s before CNNs were famous? <br>
+                            In this blog, I am going to share my experience on writing OCR 
+                            from scratch without using any neural networks or libraries.
+                            We'll build a fully functional OCR from scratch in Julia,
+                            starting with the simple concepts of "expanding" and "shrinking" shapes,
+                            and see just how far these basic principles can take us.
+                        </p>
+                        <h1>Introduction</h1>
+                        <p>
+                            I was reading about Binary Image Processing and geometric properties
+                            like area, centroid, orientation, etc..
+                            I was curious about where these properties were used.
+                            So, I looked online about some resources on Binary Image Processing
+                            and stumbled upon a book called
+                            <a target="_blank" href="https://cse.usf.edu/~r1k/MachineVisionBook/MachineVision.pdf">
+                                Machine Vision
+                            </a>
+                            from 1995 and was fascinated by how we can just use
+                            pure math concepts to do OCR. The book teaches about a
+                            intuitive field called Mathematical Morphology,
+                            which relies not on learning, but on pure geometry.
+                        </p>
+                        <h1>Mathematical Morphology</h1>
+                        <p>
+                            Mathematical Morphology(MM) is a tool for extracting image components
+                            that are useful for representation and description.
+                            With MM, we can extract boundary of objects, their skeletons and convex
+                            hulls.
+                            At its core, morphology is about probing an image with a small,
+                            predefined shape called a Structuring Element (SE).
+                            By analyzing how this SE interacts with the shapes in our image,
+                            we can perform powerful transformations.
+
+                            There are two basic morphological operations: <i>Dilation</i>
+                            and <i>Erosion</i>.
+                        </p>
+                        <p>
+                            Consider this image, which we will use in our examples. <br>
+                            <img src="img.png" alt="img">
+                        </p>
+                        <h2>Dilation</h2>
+                        <p>
+                            Imagine the white pixels in our image are dots of wet ink.
+                            Dilation is the process of taking our Structuring Element
+                            and pressing it down, centered on every single ink dot.
+                            The final image is the union of all the ink marks we've left.
+                            This makes the original shapes bigger, or <b>dilates</b> them. <br>
+                            Mathematicallly, Dilation of the object A by the structuring element B
+                            is given by <br> <br>
+                            <img src="dilation_formula.png" alt="dilation_formula">
+                            <br>
+                        </p>
+                        <p>
+                            I created a function in julia to visualize this.
+                            It shows the original pixels as white (1.0), and the
+                            new pixels added by dilation as light gray (0.7).
+                        </p>
+                        <p>
+                            You can see how the shape has grown outwards in all directions.
+                            Even the small noise specks have grown into bigger blobs.
+                            All holes have been filled. <br>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original Image</th>
+                                    <th>Dilation with Square SE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img.png" alt="Diamond Dilation"></td>
+                                    <td><img src="dilated_img_square.png" alt="Square Dilation"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">
+                            Original Image vs Dilated image with a Square SE
+                        </p>
+                        </p>
+                        <p>
+                            Here’s the Julia code that implements this:
+                        <pre><code class="language-julia">function do_dilate_float(img::BitMatrix, se::BitMatrix = trues(3, 3))
+    img_rows, img_cols = size(img)
+    se_rows, se_cols = size(se)
+    out_img = Float64.(img)
+    center_r = (se_rows + 1) ÷ 2
+    center_c = (se_cols + 1) ÷ 2
+    
+    for r in 1:img_rows
+        for c in 1:img_cols
+            if img[r, c]
+                for sr in 1:se_rows
+                    for sc in 1:se_cols
+                        if se[sr, sc]
+                            out_r = r + sr - center_r
+                            out_c = c + sc - center_c
+                            if 1 <= out_r <= img_rows && 1 <= out_c <= img_cols
+                                if out_img[out_r, out_c] == 0.0
+                                    out_img[out_r, out_c] = 0.7
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return out_img
+end</code></pre>
+                        </p>
+                        <p>
+                            We can control the growth by changing the shape of our SE.
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Dilation with Square SE</th>
+                                    <th>Dilation with Diamond SE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="dilated_img_square.png" alt="Square Dilation"></td>
+                                    <td><img src="dilated_img_diamond.png" alt="Diamond Dilation"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">Comparing a 3x3 square SE to a 3x3 diamond SE. Notice the difference in
+                            the corners.</p>
+                        The diamond SE only expands up, down, left, and right, not diagonally.
+                        </p>
+                        <p>
+                            Here, are the images without the light gray part.
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original Image</th>
+                                    <th>Dilation with Square SE</th>
+                                    <th>Dilation with Diamond SE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img.png" alt="img"></td>
+                                    <td><img src="dilated_img_square_bit.png" alt="Square Dilation"></td>
+                                    <td><img src="dilated_img_diamond_bit.png" alt="Diamond Dilation"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">Original vs Square SE vs Diamond SE</p>
+                        </p>
+                        <h2>Erosion</h2>
+                        <p>
+                            Erosion is the opposite of dilation. Here, we slide our SE over the image.
+                            We only keep a pixel in our final image if the entire SE,
+                            when centered on that pixel, fits perfectly inside the original shape.
+                            This process erodes the boundaries of objects and,
+                            completely removes any shapes smaller than the SE.
+                            In many applications, it is known that objects of interest are of size
+                            greater than small noises [1].
+                            This is helpful in removing small noises.
+                        </p>
+                        <p>
+                            The visualization below for erosion keeps the pixels that survived as white (1.0)
+                            and shows the pixels that were removed as dark gray (0.2).
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original Image</th>
+                                    <th>Erosion with Square SE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img.png" alt="img"></td>
+                                    <td><img src="eroded_img_square.png" alt="Square Dilation"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">
+                            Original Image vs Eroded image with a Square SE
+                        </p>
+                        <p>
+                            Notice how the noises at the top and bottom has vanished, and the main shape has shrunk.
+                        </p>
+                        <p>
+                            Again, Here’s the Julia code that implements this:
+                        </p>
+                        <pre><code class="language-julia">function do_erode_float(img::BitMatrix, se::BitMatrix = trues(3, 3))
+    img_rows, img_cols = size(img)
+
+    surviving_pixels = do_erode(img, se)
+
+    out_img = Float64.(img)
+
+    for r in 1:img_rows
+        for c in 1:img_cols
+            if img[r, c] && !surviving_pixels[r, c]
+                out_img[r, c] = 0.1
+            end
+        end
+    end
+
+    return out_img
+end
+</code></pre>
+                        <h2>Applications of morphological operations</h2>
+                        <p>
+                            Erosion and dilation can be used in a variety of ways,
+                            in parallel and series, to give other transformations
+                            including thickening, thinning, skeletonisation.
+                            For example, an erosion followed by a dilation with the same SE
+                            will remove all pixels in regions which are too small to contain
+                            the SE. This is called <i>Opening</i>.
+                            The opposite sequence, a dilation followed by am erosion, will
+                            fill all holes smaller than the SE. This is called <i>Closing</i>.
+
+                            Here are some visualization on how <i>Closing</i> and <i>Opening</i>
+                            works with square SE.
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original Image</th>
+                                    <th>Opening</th>
+                                    <th>Closing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img.png" alt="img"></td>
+                                    <td><img src="opened_img.png" alt="opened_img"></td>
+                                    <td><img src="closed_img.png" alt="closed_img"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">
+                            Original Image vs Opened Image vs Closed Image
+                        </p>
+                        <p>
+                            These two operations, Opening and Closing, form the basis of our
+                            image cleaning pipeline before we even attempt to recognize characters.
+                        </p>
+                        <h2>A Note on Duality</h2>
+                        <p>
+                            There's an interesting property here.
+                            Dilation and erosion are duals.
+                            In simple terms, this means that eroding an object is the same as
+                            dilating the background around it.
+                            Formally, <br>
+                            <img src="duality_formula.png" alt="duality_formula">
+                        </p>
+                        <h1>The OCR Pipeline</h1>
+                        <p>
+                            We now have everything we need: Dilation, Erosion and their
+                            combinations: Opening and Closing.
+                            But, how do we get from here to finding a letter, like an 'A'?
+                            The logic is surprisingly simple and elegant.
+                            Let us walk through each step one by one.
+                        </p>
+                        <h3>
+                            Step 1: Creating the Character Probe
+                        </h3>
+                        <p>
+                            Our goal is to find all the shapes in our main image
+                            that look like the letter 'A'.
+                            The first step is to create our template,
+                            which we will call as "probe" or "model".
+                            We will shrink our image A.
+                            Why? Because this shrunken probe needs to fit
+                            <em>comfortably inside</em> any 'A' we find,
+                            even if that 'A' is slightly distorted,
+                            rotated, or has some noise on its edges.
+                            By repeatedly eroding our clean template 'A',
+                            we create this smaller, more shrunken probe.
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original 'A' Template</th>
+                                    <th>Shrunken 'A' Probe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="template_A.png" alt="Original A"></td>
+                                    <td><img src="probe_A.png" alt="Shrunken A probe"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">On the left is our clean template. On the right is the probe, created
+                            by eroding the template four times with a 3x3 square SE.</p>
+                        <h3>
+                            Step 2: Cleaning the Target Image
+                        </h3>
+                        <p>
+                            Any real world documents are not completely noise free.
+                            There will be some noises which we have to remove.
+                            We call them "salt" and "pepper" noise.
+                            This is the perfect job for an <strong>Opening</strong> operation
+                            (an erosion followed by a dilation).
+                            The erosion will remove the small salt noise, and the dilation will
+                            restore the characters their original size.
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original Test Image</th>
+                                    <th>Opened Image (Cleaned)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="Test_Image.png" alt="Test_Image"></td>
+                                    <td><img src="cleaned_test_image.png" alt="cleaned_test_image"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">
+                            Left: Test Image. Right: Cleaned Test Image.
+                            As you can see, Most of the noises in the original image has been removed.
+                        </p>
+                        <h3>Step 3: Erosion with the Probe</h3>
+                        <p>
+                            We take our cleaned image and erode it, but this time,
+                            we use our shrunken <strong>A</strong> probe as the
+                            structuring element. <br>
+                            Think about what we did back in erosion.
+                            A pixel in the output image will be white `(true)`
+                            <em>if and only if</em> the entire shape of our probe (SE)
+                            can fit perfectly at that location. <br>
+                            This single erosion operation will leave a "hit" everywhere
+                            it finds a shape that is big enough to contain our 'A' probe.
+                            This is purely geometric template matching!
+                        </p>
+                        <p>
+                            Look at our erosion result: <br>
+                            <img src="erosion_result.png" alt="erosion_result"> <br>
+                            The white pixels are "hits" where our 'A' probe fit
+                            perfectly inside a shape.
+                        </p>
+                        <h3>Step 4: Connected Components Analysis</h3>
+                        <p>
+                            The erosion result is great, but, the output image is not a single
+                            pixel showing where A is. It's a scattering of pixels.
+                            There are a small blob of several "hit" pixels together.
+                            Now, what we need to do is, Count these together blobs
+                            as one detection.
+                            This provides the position of each recognized instance of A in the
+                            image.
+                        </p>
+                        <p>
+                            This is where the <strong>Connected Components Analysis</strong>
+                            comes in. This algorithm scans an image and gives every separate,
+                            contiguous group of pixels a unique integer label.
+                            There are two algorithms for it: <strong>Recursive Algorithm</strong>
+                            and <strong>Sequential Algorithm</strong>. <br>
+                            Here, is the code for doing Sequential Connected Components Algorithm
+                            using 4-connectivity.
+                        </p>
+                        <pre><code class="language-julia">function do_connected_components_labeling(img::BitMatrix)
+	## Get size of input image
+    rows, cols = size(img)
+	## Create a empty canvas for labeling
+    labeled_image = zeros(Int, rows, cols)
+	## next label value which gets incremented after every labeling
+    next_label = 1
+	## Equivalance Table
+    equivalences = Dict{Int, Int}()
+    ## Pass 1
+	## Check for upper and left pixel
+    for i in axes(img, 1), j in axes(img, 2)
+        if img[i, j]
+			## Check if pixel above or left exists
+            upper_label = i > 1 ? labeled_image[i-1, j] : 0
+            left_label = j > 1 ? labeled_image[i, j-1] : 0
+			## If both upper and left pixel have no labels, give new label to current pixel
+            if upper_label == 0 && left_label == 0
+                labeled_image[i, j] = next_label
+                next_label += 1
+			## If upper pixel have a label and left pixel does not, give upper label to current pixel
+            elseif upper_label != 0 && left_label == 0
+                labeled_image[i, j] = upper_label
+			## If upper pixel does not have a label and left pixel have a label, give the left label to current pixel
+            elseif upper_label == 0 && left_label != 0
+                labeled_image[i, j] = left_label
+			## If both upper and left pixels have label
+            elseif upper_label != 0 && left_label != 0
+				## If both upper and left pixels have same label, give the label to the current pixel
+                if upper_label == left_label
+                    labeled_image[i, j] = upper_label
+				## Else, give minimum label number to the current pixel and put both upper and left label in equivalence table
+				## This indicates that both the upper and left label are connected and one single object
+                else
+                    labeled_image[i, j] = min(upper_label, left_label)
+                    equivalences[max(upper_label, left_label)] = min(upper_label, left_label)
+                end
+            end
+        end
+    end
+    
+    ## Pass 2 
+	## Loop through every key in equivalence table
+    for label in keys(equivalences)
+		## Get the value and find the root label by following the chain
+        root = equivalences[label]
+        while haskey(equivalences, root)
+            root = equivalences[root]
+        end
+        ## Update the equivalence table with the final root to compress paths
+        equivalences[label] = root
+    end
+    
+    ## Create final labeled image by replacing all equivalent labels with their root labels
+    final_labeled_image = zeros(Int, rows, cols)
+    ## Loop through every pixel in the labeled image
+    for i in axes(labeled_image, 1), j in axes(labeled_image, 2)
+        current_label = labeled_image[i, j]
+        ## If pixel has a label (not background)
+        if current_label != 0
+            ## Replace with root label if it exists in equivalences, otherwise keep original
+            final_labeled_image[i, j] = get(equivalences, current_label, current_label)
+        end
+    end
+    return final_labeled_image
+end
+                        </code></pre>
+                        <h3>
+                            Step 5: Filtering and Finding the final Coordinates
+                        </h3>
+                        <p>
+                            We have now got a labeled list of objects.
+                            Two steps remain:
+                        </p>
+                        <p>
+                            At first, we can apply a size filter if we want.
+                            Some of our "hits" might be tiny, just one or two pixels.
+                            These are maybe false positives where the probe accidentally
+                            fit into some noise.
+                            We can remove the objects which are small by counting the number
+                            of pixels in the object and use a threshold to remove those objects.
+                        </p>
+                        <p>
+                            Secondly, If the remaining objects survived the size filter,
+                            we can calculate the center of mass of the object.
+                            This gives us a single(x, y) coordinate for each
+                            character we've successfully recognized.
+                        </p>
+                        <p>
+                            Here, is the code for our size filter.
+                        </p>
+                        <pre><code class="language-julia">function do_filter_components_by_size(labeled_image::Matrix{Int}; min_size::Int=1, max_size::Int=typemax(Int))
+    
+    ## Count how many pixels each label has (area of each component)
+    component_areas = countmap(labeled_image)
+    
+    ## Remove background label (0) from area counts since we don't want to filter it
+    delete!(component_areas, 0)
+    ## Initialize set to store labels of components that meet size criteria
+    labels_to_keep = Set{Int}()
+    ## Check each component's area against size thresholds
+    for (label, area) in component_areas
+        ## If component size is within specified range, mark it for keeping
+        if area >= min_size && area <= max_size
+            push!(labels_to_keep, label)
+        end
+    end
+	
+    ## Create filtered image where only components meeting size criteria are kept
+    ## All other components are set to 0 (background)
+    filtered_image = map(label -> (label in labels_to_keep) ? label : 0, labeled_image)
+    
+    return filtered_image
+end</code></pre>
+                        <p>
+                            And, we are done. Connect all the above steps one by one
+                            and we have got the OCR pipeline. <br>
+                            Here, is the full pipeline code:
+                        </p>
+                        <pre><code class="language-julia">function do_ocr(
+    test_image::BitMatrix, 
+    template_img::BitMatrix;
+    erosion_amount::Int = 4,
+    min_hit_size::Int = 1
+)
+    rows_templ, cols_templ = size(template_img)
+    if !isodd(rows_templ) || !isodd(cols_templ)
+        throw(ArgumentError("Template image dimensions must be odd to have a clear center pixel."))
+    end
+    
+    probe = copy(template_img)
+    se_shrinking = trues(3, 3)
+    for _ in 1:erosion_amount
+        probe = do_erode(probe, se_shrinking)
+    end
+
+    cleaned_test_image = do_opening(test_image)
+    erosion_result = do_erode(cleaned_test_image, probe)
+    
+    labeled_hits = do_connected_components_labeling(binary_erosion_result)
+    filtered_hits = do_filter_components_by_size(labeled_hits, min_size=1)
+    
+    unique_labels = filter(l -> l != 0, unique(filtered_hits))
+    detected_locations = []
+    
+    for label in unique_labels
+        component_mask = (filtered_hits .== label)
+        rows, cols = size(component_mask)
+        i_coords = getindex.(CartesianIndices(component_mask), 1)
+        j_coords = getindex.(CartesianIndices(component_mask), 2)
+        
+        area = sum(component_mask)
+        if area > 0
+            j_bar = sum(component_mask .* j_coords) / area
+            i_bar = sum(component_mask .* i_coords) / area
+            push!(detected_locations, (round(Int, j_bar), round(Int, i_bar)))
+        end
+    end
+
+    return erosion_result, detected_locations
+end</code></pre>
+                        <p>
+                            I have also uploaded the code on
+                            <a href="https://github.com/yashasnadigsyn/OCR_from_scratch">GitHub</a>.
+                        </p>
+                        <h3>Conclusion</h3>
+                        <p>
+                            And, finally, we wrote a OCR from Scratch without any neural networks.
+                            It was fun and i was shocked how the basic geometrical principles
+                            were so useful.
+                        </p>
+                        <p>
+                            There are some problems though. This works perfectly only when
+                            the characters in our test image are very similar in font and size to
+                            our original template.
+                            If the font changes, or if the text size is drastically different
+                            than the template, our probe will fail to fit inside the target
+                            characters and the model fails. <br>
+                            Example:
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Original Test Image</th>
+                                    <th>Found Instances</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="Failed_Test.png" alt="Failed_Test"></td>
+                                    <td><img src="erosion_result_fail.png" alt="erosion_result_fail"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="image-caption">
+                            Left: Test Image. Right: Found Instances.
+                            As you can see, The small As have been ignored.
+                        </p>
+                        <p>
+                            Our OCR pipeline found 2 instances, not one.
+                            If you don't believe me, i would like you to zoom the 
+                            second image above.
+                            There are two pixels, one at (132, 352) and 
+                            another at (133, 353).
+                            This is because I kept the size filter at minimum (1) and if we
+                            increase the size filter even by one, there would be zero instances 
+                            of A.
+                        </p>
+                        <p>
+                            There is also a problem of <strong>Omnifont Recognition</strong> and
+                            it has historically been a very difficult problem for 
+                            classical computer vision techniques. 
+                        </p>
+                        <p>
+                            This is precisely where modern techniques like 
+                            Convolutional Neural Networks (CNNs) are much better.
+                            Instead of being explicitly programmed with a rigid geometric template, 
+                            a CNN learns the features by itself trained on thousands of examples. 
+                            This is much better than a morphological model for OCR.
+                        </p>
+                        <p>
+                            Conclusion: It was fun.
+                        </p>
+                        <h1>References</h1>
+                        <p>
+                            [1] Look at Size Filter, Chapter-2 (Binary Image Processing), Machine Vision, 1995 <br>
+                            Computer Vision IT412, Robert Owens, 1998 <a href="https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/OWENS/LECT3/node3.html">(LINK)</a>
+                        </p>
+                    </div>
+                    <script src="../prism.js"></script>
+</body>
+
+</html>
