@@ -5,122 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Science Works - Yashas Nadig</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .work-item {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .work-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .work-item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .work-content {
-            padding: 1.5rem;
-        }
-
-        .work-title {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
-        }
-
-        .work-date {
-            color: #888;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .work-description {
-            margin-bottom: 1.5rem;
-        }
-
-        .tag {
-            display: inline-block;
-            background-color: rgba(74, 144, 226, 0.2);
-            color: var(--accent-color);
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .tags {
-            margin-bottom: 1rem;
-        }
-
-        /* Back button */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--text-color);
-            text-decoration: none;
-            margin-bottom: 2rem;
-        }
-
-        .back-link:hover {
-            color: var(--accent-color);
-        }
-    </style>
 </head>
 <body>
     <main>
-        <a href="/" class="back-link"> <= Back to Main Page</a>
+        <header class="hero">
+            <a href="/" class="back-link">← Back to Main Page</a>
+            <h1>Data Science Works</h1>
+            <p class="subtitle">A collection of my data science projects, analyses, and insights</p>
+        </header>
 
-        <h1>Data Science Works</h1>
-        <p>A collection of my data science projects, analyses, and insights.</p>
-
-        <!-- Placements Analysis -->
-        <div class="work-grid">
-            <div class="work-item">
-                <img src="works/placements/placement.png" alt="Placements Profile">
-                <div class="work-content">
-                    <h3 class="work-title">Placements Analysis</h3>
-                    <span class="work-date">February 2025</span>
-                    <div class="tags">
-                        <span class="tag">sklearn</span>
-                        <span class="tag">lighgbm</span>
-                        <span class="tag">permutation-importance</span>
-                    </div>
-                    <p class="work-description">Analysis of Placement Statistics</p>
-                    <a href="works/placements/placements.html" class="btn">Read More</a>
-                </div>
+        <section class="content-section">
+            <div class="works-list">
+                <article class="work">
+                    <h3><a href="works/placements/placements.html">Placements Analysis</a></h3>
+                    <p class="meta">February 2025 • sklearn, lightgbm, permutation-importance</p>
+                    <p class="description">Analysis of Placement Statistics</p>
+                </article>
+                
+                <article class="work">
+                    <h3><a href="https://rethinking-point-estimate-demo.streamlit.app/">Finding Point Estimate</a></h3>
+                    <p class="meta">May 2025 • Bayesian, Python, Statistics</p>
+                    <p class="description">Interactive demo for the statistical game described in Chapter 3 from Statistical Rethinking, exploring Bayesian inference concepts.</p>
+                </article>
             </div>
-
-            <div class="work-item">
-                <img src="works/rethinking_point_estimate/rethinking_point_estimate.png" alt="Rethinking Point Estimate">
-                <div class="work-content">
-                    <h3 class="work-title">Finding Point Estimate</h3>
-                    <span class="work-date">May 2025</span>
-                    <div class="tags">
-                        <span class="tag">Bayesian</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">Statistics</span>
-                    </div>
-                    <p class="work-description">Interactive demo for the statistical game described in Chapter 3 from Statistical Rethinking, exploring Bayesian inference concepts.</p>
-                    <a href="https://rethinking-point-estimate-demo.streamlit.app/" class="btn">Read More</a>
-                </div>
-            </div>
-        </div>
+        </section>
     </main>
-    <script src="script.js"></script>
+    
+    <footer>
+        <p>© 2025 Yashas Nadig. No rights reserved.</p>
+    </footer>
 </body>
 </html>

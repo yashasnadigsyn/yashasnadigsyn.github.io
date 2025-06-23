@@ -7,154 +7,111 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- <header id="navbar">
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#research">Research</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#works">Works</a></li>
-                <li><a href="#quotes">Quotes</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header> -->
-
     <main>
-        <section id="home" class="hero">
+        <header class="hero">
             <h1>Yashas Nadig</h1>
-            <p>Machine Learning & Data Science Enthusiast</p>
-        </section>
+            <p class="subtitle">Machine Learning & Data Science Enthusiast</p>
+            <p class="description">3rd year student at MSRUAS, studying B.Tech in Ai/ML. Researching at the crossroads of NLP, Computer Vision, and Data Science, with a focus on practical applications and mathematical foundations.</p>
+        </header>
 
-        <section id="about">
-            <h2>About Me</h2>
-            <p>I'm a 3rd year student at MSRUAS, studying B.Tech in Artificial Intelligence and Machine Learning. My focus is on NLP and Data Science.</p>
-        </section>
-
-        <!-- <section id="skills">
-            <h2>Skills</h2>
-            <div class="skills-container">
-                <div class="skill"><img src="icons/python.svg" alt="Python icon">Python</div>
-                <div class="skill"><img src="icons/pytorch.svg" alt="PyTorch icon">PyTorch</div>
-                <div class="skill"><img src="icons/scikit-learn.svg" alt="scikit-learn icon">scikit-learn</div>
-                <div class="skill"><img src="icons/sql.svg" alt="SQL icon">SQL</div>
-                <div class="skill"><img src="icons/tableau.svg" alt="Tableau icon">Tableau</div>
-                <div class="skill"><img src="icons/powerbi.svg" alt="PowerBI icon">PowerBI</div>
-            </div>
-        </section> -->
-
-        <section id="research">
+        <section class="content-section">
             <h2>Research & Papers</h2>
-            <div class="papers-container">
-                <div class="paper-item">
-                    <a href="https://www.researchgate.net/publication/388087265_Towards_Scalable_SDG_Classification_of_Startups_using_Machine_Learning_and_Large_Language_Models" class="paper-title">Towards Scalable SDG Classification of Startups using Machine Learning and Large Language Models</a>
-                    <p class="paper-description">Conference: International Conference on Entrepreneurship and Entrepreneurial Ecosystems in the Global Economy - REEN Conference (IISc Bangalore)</p>
-                </div>
-                <div class="paper-item">
-                    <a href="https://www.researchgate.net/publication/390942900_Synergizing_Innovation_Mapping_Sustainability_Startup_Clusters?_sg%5B0%5D=Wa9TOJD4t7wXao4Htymz0GwM-d4rY9qbsp1kt9FJmdYyIdd0Z62d3j8jmMEJvw-cfZh7na70zLs4yyF8qB6yVbJttV8viyBiuKZocNnp._Pu-y0S72ymeqtX2jFI3l2DpKu_gGQXnQxQCCIXKZJ9BgVW2PEipQ-fZP6emXnljWt7rxX4HtCYIZgofI8LNQg&_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6ImhvbWUiLCJwYWdlIjoicHJvZmlsZSIsInBvc2l0aW9uIjoicGFnZUNvbnRlbnQifX0" class="paper-title">Synergizing Innovation: Mapping Sustainability Startup Clusters</a>
-                    <p class="paper-description">Conference: IMPeC 2025 (IIM Sambhalpur)</p>
-                </div>
-                <div class="paper-item">
-                    <a href="https://www.researchgate.net/publication/390160887_Analysis_of_Support_Systems_and_Challenges_in_Deep_Tech_Startups_A_Multi-Criteria_Decision_Making_Approach_to_Revenue_Growth_Impact" class="paper-title">Analysis of Support Systems and Challenges in Deep Tech Startups: A Multi-Criteria Decision Making Approach to Revenue Growth Impact</a>
-                    <p class="paper-description">Conference: International Conference on Deep-Tech and Policy: Building a Sustainable Deep-Tech Startup Ecosystem (Ramaiah University)</p>
+            <div class="papers-list">
+                <article class="paper">
+                    <h3><a href="https://www.researchgate.net/publication/388087265_Towards_Scalable_SDG_Classification_of_Startups_using_Machine_Learning_and_Large_Language_Models">Towards Scalable SDG Classification of Startups using Machine Learning and Large Language Models</a></h3>
+                    <p class="meta">International Conference on Entrepreneurship and Entrepreneurial Ecosystems in the Global Economy - REEN Conference (IISc Bangalore)</p>
+                </article>
+                
+                <article class="paper">
+                    <h3><a href="https://www.researchgate.net/publication/390942900_Synergizing_Innovation_Mapping_Sustainability_Startup_Clusters?_sg%5B0%5D=Wa9TOJD4t7wXao4Htymz0GwM-d4rY9qbsp1kt9FJmdYyIdd0Z62d3j8jmMEJvw-cfZh7na70zLs4yyF8qB6yVbJttV8viyBiuKZocNnp._Pu-y0S72ymeqtX2jFI3l2DpKu_gGQXnQxQCCIXKZJ9BgVW2PEipQ-fZP6emXnljWt7rxX4HtCYIZgofI8LNQg&_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6ImhvbWUiLCJwYWdlIjoicHJvZmlsZSIsInBvc2l0aW9uIjoicGFnZUNvbnRlbnQifX0">Synergizing Innovation: Mapping Sustainability Startup Clusters</a></h3>
+                    <p class="meta">IMPeC 2025 (IIM Sambhalpur)</p>
+                </article>
+                
+                <article class="paper">
+                    <h3><a href="https://www.researchgate.net/publication/390160887_Analysis_of_Support_Systems_and_Challenges_in_Deep_Tech_Startups_A_Multi-Criteria_Decision_Making_Approach_to_Revenue_Growth_Impact">Analysis of Support Systems and Challenges in Deep Tech Startups: A Multi-Criteria Decision Making Approach to Revenue Growth Impact</a></h3>
+                    <p class="meta">International Conference on Deep-Tech and Policy: Building a Sustainable Deep-Tech Startup Ecosystem (MSRUAS, Bangalore)</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Blog Posts</h2>
+            <div class="blog-list">
+                <article class="blog-post">
+                    <h3><a href="blogs/trendBlore/trendblore.html">Food & Bengaluru</a></h3>
+                    <p class="description">About Zomato Bengalurians..</p>
+                </article>
+                
+                <article class="blog-post">
+                    <h3><a href="blogs/wrong_intuition/wrong_intution.html">Wrong Intuition</a></h3>
+                    <p class="description">About how my intuition was wrong..</p>
+                </article>
+                
+                <article class="blog-post">
+                    <h3><a href="blogs/ocr_from_scratch/ocr_from_scratch.html">Writing OCR from Scratch... without Neural Networks</a></h3>
+                    <p class="description">My experience on Mathematical Morphology</p>
+                </article>
+                
+                <div class="view-all">
+                    <a href="blog.html">View All Posts →</a>
                 </div>
             </div>
         </section>
 
-        <section id="projects">
+        <section class="content-section">
             <h2>Projects</h2>
-            <div class="project-container">
-                <div class="project-card">
-                    <img src="lenet_builder.png" alt="Project 1">
-                    <h3>LeNet Builder</h3>
-                    <p>A simple app which allows you to build and visualize a LeNet convolutional neural network (CNN) architecture.</p>
-                    <a href="https://lenet-builder.streamlit.app/" class="btn">View Project</a>
-                </div>
-                <div class="project-card">
-                    <img src="ofts_cli.png" alt="Project 2">
-                    <h3>Ofts-Cli</h3>
-                    <p>OFTS (Open Fotos Tagging System) is a powerful, open-source photo management platform designed to help you organize and rediscover your memories.</p>
-                    <a href="/ofts-frontend" class="btn">View Project</a>
-                </div>
-                <div class="project-card">
-                    <img src="curve_fitter.png" alt="Project 3">
-                    <h3>Curve Fitter 6000</h3>
-                    <p>Curve fitter 6000 is an old machine used to find the best fit curve by tweaking the co-efficients randomly.</p>
-                    <a href="/the_curve_fitter" class="btn">View Project</a>
-                </div>
+            <div class="projects-list">
+                <article class="project">
+                    <h3><a href="https://lenet-builder.streamlit.app/">LeNet Builder</a></h3>
+                    <p class="description">A simple app which allows you to build and visualize a LeNet convolutional neural network (CNN) architecture.</p>
+                </article>
+                
+                <article class="project">
+                    <h3><a href="/ofts-frontend">Ofts-Cli</a></h3>
+                    <p class="description">OFTS (Open Fotos Tagging System) is a powerful, open-source photo management platform designed to help you organize and rediscover your memories.</p>
+                </article>
+                
+                <article class="project">
+                    <h3><a href="/the_curve_fitter">Curve Fitter 6000</a></h3>
+                    <p class="description">Curve fitter 6000 is an old machine used to find the best fit curve by tweaking the co-efficients randomly.</p>
+                </article>
             </div>
         </section>
 
-        <section id="blog">
-            <h2>Blog</h2>
-            <div class="blog-container">
-                <div class="blog-post">
-                    <span class="blog-prefix">>>> </span><a href="blogs/trendBlore/trendblore.html" class="blog-title">Food & Bengaluru</a>
-                    <p class="blog-description">About Zomato Bengalurians..</p>
-                </div>
-                <div class="blog-post">
-                    <span class="blog-prefix">>>> </span><a href="blogs/wrong_intuition/wrong_intution.html" class="blog-title">Wrong Intuition</a>
-                    <p class="blog-description">About how my intuition was wrong..</p>
-                </div>
-                <div class="blog-post">
-                    <span class="blog-prefix">>>> </span><a href="blogs/ocr_from_scratch/ocr_from_scratch.html" class="blog-title">Writing OCR from Scratch... without Neural Networks</a>
-                    <p class="blog-description">My experience on Mathematical Morphology</p>
-                </div>
-            </div>
-            <div class="quotes-container"> <a href="/blog.html" class="btn">View All Blogs</a> </div>
-        </section>
-
-        <section id="works">
+        <section class="content-section">
             <h2>Works</h2>
-            <div class="works-container">
-                <div class="work-card">
-                    <a href="works/placements/placements.html">
-                        <div class="work-header">
-                            <div class="work-icon work-icon-data"></div>
-                            <div>
-                                <h3 class="work-title">Placement Analysis</h3>
-                            </div>
-                        </div>
-                        <p class="work-description">Comprehensive analysis of placement statistics, trends, and insights to help understand recruitment patterns and outcomes.</p>
-                    </a>
-                </div>
-                <div class="work-card">
-                    <a href="https://rethinking-point-estimate-demo.streamlit.app/">
-                        <div class="work-header">
-                            <div class="work-icon work-icon-ml"></div>
-                            <div>
-                                <h3 class="work-title">Finding Point Estimate</h3>
-                            </div>
-                        </div>
-                        <p class="work-description">Interactive demo for the statistical game described in Chapter 3 from Statistical Rethinking, exploring Bayesian inference concepts.</p>
-                    </a>
+            <div class="works-list">
+                <article class="work">
+                    <h3><a href="works/placements/placements.html">Placement Analysis</a></h3>
+                    <p class="description">Comprehensive analysis of placement statistics, trends, and insights to help understand recruitment patterns and outcomes.</p>
+                </article>
+                
+                <article class="work">
+                    <h3><a href="https://rethinking-point-estimate-demo.streamlit.app/">Finding Point Estimate</a></h3>
+                    <p class="description">Interactive demo for the statistical game described in Chapter 3 from Statistical Rethinking, exploring Bayesian inference concepts.</p>
+                </article>
+                
+                <div class="view-all">
+                    <a href="pred.html">View All Works →</a>
                 </div>
             </div>
-            <div class="quotes-container"> <a href="/pred.html" class="btn">View All Works</a> </div>
         </section>
 
-        <section id="quotes">
-            <h2>Quotes</h2>
-            <p>A collection of quotes that i liked...</p>
-            <div class="quotes-container"> <a href="/quotes.html" class="btn">View All Quotes</a> </div>
-        </section>
-
-        <section id="contact">
+        <section class="content-section">
             <h2>Contact</h2>
-            <p>Get in touch with me:</p>
-            <div class="social-links">
-                <a href="https://github.com/yashasnadigsyn/" target="_blank"><img src="icons/github.svg" alt="GitHub"></a>
-                <a href="https://www.linkedin.com/in/yashas-nadig-b7b831255/" target="_blank"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
-                <a href="mailto:yashasnadigsyn@outlook.com" target="_blank"><img src="icons/mail.svg" alt="Email"></a>
+            <div class="contact-info">
+                <p>Get in touch:</p>
+                <div class="social-links">
+                    <a href="https://github.com/yashasnadigsyn/" target="_blank">GitHub</a>
+                    <a href="https://www.linkedin.com/in/yashas-nadig-b7b831255/" target="_blank">LinkedIn</a>
+                    <a href="mailto:yashasnadigsyn@outlook.com">Email</a>
+                </div>
             </div>
         </section>
     </main>
+    
     <footer>
         <p>© 2025 Yashas Nadig. No rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>
