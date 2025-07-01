@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            background-color: #0f0f0f;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
+            padding: 20px 16px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .main-content {
+            padding: 20px 16px;
+        }
+
+        .input-section {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: #262626;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 16px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #888;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .file-upload {
+            border: 2px dashed #444;
+            border-radius: 8px;
+            padding: 30px 16px;
+            text-align: center;
+            background-color: #1f1f1f;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #666;
+            background-color: #222;
+        }
+
+        .file-upload.dragover {
+            border-color: #0084ff;
+            background-color: #001a33;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: #666;
+        }
+
+        .file-upload h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .file-upload p {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .url-input {
+            margin-bottom: 16px;
+        }
+
+        .url-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #1f1f1f;
+            color: #fff;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="url"]:focus {
+            outline: none;
+            border-color: #0084ff;
+        }
+
+        input[type="url"]::placeholder {
+            color: #666;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #0084ff;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: #0066cc;
+        }
+
+        .btn:disabled {
+            background-color: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .btn .loading {
+            display: none;
+        }
+
+        .btn.loading .loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn.loading .text {
+            opacity: 0.7;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .url-examples {
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            border-left: 3px solid #0084ff;
+        }
+
+        .url-examples h4 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .url-examples ul {
+            list-style: none;
+        }
+
+        .url-examples li {
+            padding: 4px 0;
+            color: #888;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        .output-section {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+            display: none;
+        }
+
+        .output-section.show {
+            display: block;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .output-header h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #218838;
+        }
+
+        .output-text {
+            background-color: #1f1f1f;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #e0e0e0;
+        }
+
+        .error {
+            background-color: #2d1b1b;
+            color: #ff6b6b;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border: 1px solid #4a2626;
+            font-size: 0.9rem;
+        }
+
+        .success {
+            background-color: #1b2d1b;
+            color: #4caf50;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border: 1px solid #264a26;
+            font-size: 0.9rem;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        /* Scrollbar styling */
+        .output-text::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output-text::-webkit-scrollbar-track {
+            background: #262626;
+            border-radius: 4px;
+        }
+
+        .output-text::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+
+        .output-text::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #0f0f0f;
+            }
+
+            .main-content {
+                padding: 30px;
+            }
+
+            .header {
+                padding: 30px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .url-input-container {
+                flex-direction: row;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: auto;
+                min-width: 120px;
+            }
+
+            input[type="url"] {
+                flex: 1;
+            }
+        }
+
+        /* Dark mode scrollbar for all elements */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #444 #262626;
+        }
+
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #262626;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+
+        /* Focus states for accessibility */
+        .tab:focus,
+        .btn:focus,
+        .copy-btn:focus {
+            outline: 2px solid #0084ff;
+            outline-offset: 2px;
+        }
+
+        /* Touch-friendly sizing */
+        @media (max-width: 767px) {
+            .tab {
+                padding: 14px 16px;
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 16px 20px;
+                font-size: 1.1rem;
+            }
+
+            input[type="url"] {
+                padding: 16px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Notebook Converter</h1>
+            <p>Convert .ipynb files to readable text</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('file')">Upload File</button>
+                    <button class="tab" onclick="switchTab('url')">From URL</button>
+                </div>
+
+                <div id="file-tab" class="tab-content active">
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">📁</div>
+                        <h3>Select .ipynb file</h3>
+                        <p>Tap to browse or drag & drop</p>
+                        <input type="file" id="fileInput" class="hidden-input" accept=".ipynb" onchange="handleFileSelect(event)">
+                    </div>
+                </div>
+
+                <div id="url-tab" class="tab-content">
+                    <div class="url-input">
+                        <div class="url-input-container">
+                            <input type="url" id="urlInput" placeholder="Paste Colab or GitHub URL..." />
+                            <button class="btn" onclick="convertFromUrl()">
+                                <span class="loading">⟳</span>
+                                <span class="text">Convert</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="url-examples">
+                        <h4>Supported formats:</h4>
+                        <ul>
+                            <li>• Google Colab notebooks</li>
+                            <li>• GitHub .ipynb files</li>
+                            <li>• GitHub raw URLs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outputSection" class="output-section">
+                <div class="output-header">
+                    <h3>Converted Text</h3>
+                    <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                </div>
+                <div id="outputText" class="output-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentNotebookContent = '';
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            document.querySelector(`button[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+
+        // File drag and drop
+        const fileUpload = document.querySelector('.file-upload');
+        
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        // File selection
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        // Process uploaded file
+        function handleFile(file) {
+            if (!file.name.endsWith('.ipynb')) {
+                showError('Please select a valid .ipynb file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const notebook = JSON.parse(e.target.result);
+                    const text = convertNotebookToText(notebook);
+                    displayOutput(text);
+                    showSuccess(`Successfully converted "${file.name}"`);
+                } catch (error) {
+                    showError('Error parsing notebook file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Convert from URL
+        async function convertFromUrl() {
+            const urlInput = document.getElementById('urlInput');
+            const btn = event.target;
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showError('Please enter a valid URL');
+                return;
+            }
+
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            try {
+                let fetchUrl = url;
+                
+                // Convert different URL formats to raw format
+                if (url.includes('colab.research.google.com')) {
+                    // Extract file ID from Colab URL
+                    const fileIdMatch = url.match(/\/drive\/([a-zA-Z0-9_-]+)/);
+                    if (fileIdMatch) {
+                        fetchUrl = `https://drive.google.com/uc?export=download&id=${fileIdMatch[1]}`;
+                    }
+                } else if (url.includes('github.com') && url.includes('/blob/')) {
+                    // Convert GitHub blob URL to raw URL
+                    fetchUrl = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                }
+
+                const response = await fetch(fetchUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const text = await response.text();
+                const notebook = JSON.parse(text);
+                const convertedText = convertNotebookToText(notebook);
+                displayOutput(convertedText);
+                showSuccess('Successfully converted notebook from URL');
+
+            } catch (error) {
+                showError('Error fetching or parsing notebook: ' + error.message);
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+
+        // Convert notebook JSON to text
+        function convertNotebookToText(notebook) {
+            let text = '';
+            
+            // Add notebook metadata
+            if (notebook.metadata && (notebook.metadata.colab || notebook.metadata.kernelspec)) {
+                text += '='.repeat(80) + '\n';
+                text += 'NOTEBOOK INFORMATION\n';
+                text += '='.repeat(80) + '\n';
+                
+                if (notebook.metadata.colab) {
+                    text += 'Source: Google Colab\n';
+                    if (notebook.metadata.colab.name) {
+                        text += `Name: ${notebook.metadata.colab.name}\n`;
+                    }
+                }
+                
+                if (notebook.metadata.kernelspec) {
+                    text += `Kernel: ${notebook.metadata.kernelspec.display_name || notebook.metadata.kernelspec.name}\n`;
+                }
+                
+                text += '\n';
+            }
+
+            // Process cells
+            if (notebook.cells && Array.isArray(notebook.cells)) {
+                notebook.cells.forEach((cell, index) => {
+                    text += '-'.repeat(80) + '\n';
+                    text += `CELL ${index + 1}: ${cell.cell_type.toUpperCase()}\n`;
+                    text += '-'.repeat(80) + '\n';
+
+                    // Handle different cell types
+                    if (cell.cell_type === 'markdown') {
+                        if (cell.source) {
+                            const source = Array.isArray(cell.source) ? cell.source.join('') : cell.source;
+                            text += source + '\n';
+                        }
+                    } else if (cell.cell_type === 'code') {
+                        // Add source code
+                        if (cell.source) {
+                            const source = Array.isArray(cell.source) ? cell.source.join('') : cell.source;
+                            text += 'INPUT:\n';
+                            text += source + '\n';
+                        }
+
+                        // Add outputs if present
+                        if (cell.outputs && cell.outputs.length > 0) {
+                            text += '\nOUTPUT:\n';
+                            cell.outputs.forEach((output, outputIndex) => {
+                                if (output.output_type === 'stream') {
+                                    const outputText = Array.isArray(output.text) ? output.text.join('') : output.text;
+                                    text += outputText;
+                                } else if (output.output_type === 'execute_result' || output.output_type === 'display_data') {
+                                    if (output.data) {
+                                        if (output.data['text/plain']) {
+                                            const outputText = Array.isArray(output.data['text/plain']) 
+                                                ? output.data['text/plain'].join('') 
+                                                : output.data['text/plain'];
+                                            text += outputText + '\n';
+                                        }
+                                        if (output.data['text/html']) {
+                                            text += '[HTML OUTPUT PRESENT]\n';
+                                        }
+                                        if (output.data['image/png'] || output.data['image/jpeg']) {
+                                            text += '[IMAGE OUTPUT PRESENT]\n';
+                                        }
+                                    }
+                                } else if (output.output_type === 'error') {
+                                    text += 'ERROR:\n';
+                                    if (output.traceback) {
+                                        const traceback = Array.isArray(output.traceback) 
+                                            ? output.traceback.join('\n') 
+                                            : output.traceback;
+                                        text += traceback + '\n';
+                                    }
+                                }
+                            });
+                        }
+                    } else if (cell.cell_type === 'raw') {
+                        if (cell.source) {
+                            const source = Array.isArray(cell.source) ? cell.source.join('') : cell.source;
+                            text += source + '\n';
+                        }
+                    }
+
+                    text += '\n';
+                });
+            }
+
+            text += '='.repeat(80) + '\n';
+            text += 'END OF NOTEBOOK\n';
+            text += '='.repeat(80) + '\n';
+
+            return text;
+        }
+
+        // Display output
+        function displayOutput(text) {
+            currentNotebookContent = text;
+            document.getElementById('outputText').textContent = text;
+            document.getElementById('outputSection').classList.add('show');
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard() {
+            try {
+                await navigator.clipboard.writeText(currentNotebookContent);
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            } catch (error) {
+                showError('Failed to copy to clipboard');
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            removeMessages();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            document.querySelector('.input-section').appendChild(errorDiv);
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            removeMessages();
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.textContent = message;
+            document.querySelector('.input-section').appendChild(successDiv);
+            setTimeout(() => successDiv.remove(), 3000);
+        }
+
+        // Remove existing messages
+        function removeMessages() {
+            document.querySelectorAll('.error, .success').forEach(el => el.remove());
+        }
+
+        // Handle Enter key in URL input
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                convertFromUrl();
+            }
+        });
+    </script>
+</body>
+</html>
