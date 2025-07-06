@@ -441,7 +441,7 @@
                     <div class="url-input">
                         <div class="url-input-container">
                             <input type="url" id="urlInput" placeholder="Paste Colab or GitHub URL..." />
-                            <button class="btn" onclick="convertFromUrl()">
+                            <button class="btn" onclick="convertFromUrl(event)">
                                 <span class="loading">⟳</span>
                                 <span class="text">Convert</span>
                             </button>
@@ -451,10 +451,12 @@
                     <div class="url-examples">
                         <h4>Supported formats:</h4>
                         <ul>
-                            <li>• Google Colab notebooks</li>
-                            <li>• GitHub .ipynb files</li>
-                            <li>• GitHub raw URLs</li>
+                            <li>• GitHub .ipynb files (raw or blob URLs)</li>
+                            <li>• Any direct .ipynb file with CORS enabled</li>
                         </ul>
+                        <div style="color:#ff6b6b; margin-top:10px; font-size:0.95em;">
+                            <b>Note:</b> Direct conversion from Google Colab URLs is <u>not supported</u> due to Google Drive restrictions. Please download the notebook from Colab and upload it here.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -532,13 +534,21 @@
         }
 
         // Convert from URL
-        async function convertFromUrl() {
+        async function convertFromUrl(e) {
+            if (e) e.preventDefault();
+            removeMessages();
             const urlInput = document.getElementById('urlInput');
-            const btn = event.target;
+            const btn = document.querySelector('#url-tab .btn');
             const url = urlInput.value.trim();
 
             if (!url) {
                 showError('Please enter a valid URL');
+                return;
+            }
+
+            // Block Colab URLs with a clear message
+            if (url.includes('colab.research.google.com')) {
+                showError('Direct conversion from Colab URLs is not supported due to Google Drive restrictions. Please download the notebook from Colab and upload it here.');
                 return;
             }
 
@@ -547,30 +557,19 @@
 
             try {
                 let fetchUrl = url;
-                
-                // Convert different URL formats to raw format
-                if (url.includes('colab.research.google.com')) {
-                    // Extract file ID from Colab URL
-                    const fileIdMatch = url.match(/\/drive\/([a-zA-Z0-9_-]+)/);
-                    if (fileIdMatch) {
-                        fetchUrl = `https://drive.google.com/uc?export=download&id=${fileIdMatch[1]}`;
-                    }
-                } else if (url.includes('github.com') && url.includes('/blob/')) {
-                    // Convert GitHub blob URL to raw URL
+                // Only convert GitHub blob URLs to raw
+                if (url.includes('github.com') && url.includes('/blob/')) {
                     fetchUrl = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
                 }
-
                 const response = await fetch(fetchUrl);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
                 const text = await response.text();
                 const notebook = JSON.parse(text);
                 const convertedText = convertNotebookToText(notebook);
                 displayOutput(convertedText);
                 showSuccess('Successfully converted notebook from URL');
-
             } catch (error) {
                 showError('Error fetching or parsing notebook: ' + error.message);
             } finally {
@@ -686,7 +685,20 @@
         // Copy to clipboard
         async function copyToClipboard() {
             try {
-                await navigator.clipboard.writeText(currentNotebookContent);
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(currentNotebookContent);
+                } else {
+                    // Fallback for insecure context or unsupported browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = currentNotebookContent;
+                    textarea.style.position = 'fixed'; // Prevent scrolling to bottom
+                    textarea.style.opacity = '0';
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                }
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅ Copied!';
@@ -726,7 +738,7 @@
         // Handle Enter key in URL input
         document.getElementById('urlInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                convertFromUrl();
+                convertFromUrl(e);
             }
         });
     </script>
