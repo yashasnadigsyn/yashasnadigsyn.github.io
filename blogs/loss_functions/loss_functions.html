@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So, how do we create loss functions?</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .work-header {
+            margin-bottom: 2rem;
+        }
+        
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .work-date {
+            margin-right: 1.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link"> <= Back to Blogs</a>
+        <div class="work-container">
+            <article class="work-header">
+                <h1 class="work-title">So, how do we create loss functions?</h1>
+                <div class="work-meta">
+                    <span class="work-date">24 Aug 2025</span>
+                    <span class="tag">ML</span>
+                    <span class="tag">Stats</span>
+                    <span class="tag">InfoTheory</span>
+                </div>
+            </article>
+
+            <div class="work-content">
+                <p>
+                    Unless you've been living under a rock for the past couple of years, 
+                    you would have heard and probably used Ai models like ChatGPT, Gemini or Stable
+                    Diffusion.
+                    They can write your exams, debug code and create images that look realistic.
+                    All these "Ai" models comes under a field called <a href="https://en.wikipedia.org/wiki/Deep_learning">Deep Learning</a>. 
+                </p>
+                <p>
+                    Deep Learning comes under Machine Learning which uses multilayered neural networks
+                    to do tasks such as classification, regression, etc..
+                    These multilayered neural networks combined together is what we call as a 
+                    "model".
+                    The goal is to create the best possible model which gives the most accurate 
+                    and "best" results.
+                </p>
+                <p>
+                    So, what do I mean by "best" results? The "best" models are those 
+                    which have the "best" parameters. Think of parameters as tiny knobs 
+                    inside the model. Finding the perfect combination of these knobs will 
+                    create a "best" model. So, how does the model know which way to turn the knobs? 
+                </p>
+                <p>
+                    And, that's where the <b>loss function</b> comes in.
+                </p>
+                <p>
+                    A loss function is like a guide for the model which tells it 
+                    how well it is doing at turning those knobs. 
+                    It measures how far off the model's predictions are from the actual 
+                    answers.
+                </p>
+                <p>
+                    If you liked my "knob" analogy, check out 
+                    <a href="https://yashasnadigsyn.github.io/the_curve_fitter/">my project</a>
+                    I did an year ago to explain myself about loss functions and to think 
+                    like a model.
+                </p>
+                <h2>
+                    Maximum Likelihood
+                </h2>
+                <p>
+                    We usually think that given an input <code>x</code>, the model just 
+                    spits out an output <code>y</code>, kinda like <code>y = f(x)</code>, 
+                    where <code>f</code> is the model. 
+                    And yeah, that's not entirely wrong, because, well, that's what it does in the end! <br>
+                    but there's more to it.
+                    The model doesn't magically know given an input <code>x</code>, 
+                    the answer is <code>y</code>. 
+                </p>
+                <p>
+                    Instead what it does is, create a conditional probability distribution
+                    <code>Pr(y|x)</code> over a range of possible outputs y given input x.
+                </p>
+                <p>
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <img src="loss_functions1.png" alt="Regression and classification output distributions" class="work-image">
+                        <div class="image-caption">
+                            Figure: (a) Regression and (b) Classification <br>
+                            On the top plot, the orange dots show our data points.
+                            The bottom plot shows that the model outputs the probability
+                            distribution and and chooses the value as the output where the peak of 
+                            the distribution comes. 
+                            The width of the curve is uncertainity.
+                            <br>
+                            Source: <a href="https://udlbook.github.io/udlbook/" target="_blank">Understanding Deep Learning: Chapter 5</a>
+                        </div>
+                    </div>
+                </p>
+                <p>
+                    Well, now, you may have a doubt on how exactly a model f[x, ϕ] compute 
+                    a probability distribution. 
+                    The solution is really really simple.
+                    What we actually do is, choose a parametric distribution <code>Pr(y|θ)</code>
+                    defined on the output domain <code>y</code>.
+                    So, for example, if the output domain is the set of real numbers, 
+                    we might choose univariate normal distribution, else, if the output domain 
+                    is a set of K distinct categories (Example: 'Cat', 'Dog', 'Bird', etc..),
+                    we might choose the categorical distribution.
+                    Then, we use the model to predict the parameters of that distribution.
+                    So, in the case of univariate normal distribution, it is μ (mean) and σ2 (variance).
+                </p>
+                <p>
+                    So, instead of computing the distribution itself, we now compute the 
+                    model parameters <code>θ</code> for each training example <code>x</code>.
+                    The output <code>y</code> should have high probability given it's conditional 
+                    distribution <code>Pr(y|θ)</code>.
+                    Now, given <code>I</code> training examples, we have to choose the model 
+                    parameters ϕ that can maximize the combined probability.
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                    \hat{\phi} &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{x}_i) \right] \\
+                    &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \boldsymbol{\theta}_i) \right] \\
+                    &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right].
+                    \end{align*}
+                    $$
+                </p>
+                <p>
+                    The final term is called <b>Maximum Likelihood Criterion</b>.
+                </p>
+                <p>
+                    Before going further, let me explain the terms again. <br>
+                    θ - This is the distribution parameters. So, if we have normal distribution,
+                    it is μ (mean) and σ2 (variance). <br>
+                    ϕ - This is the model parameters which we are going to find to minimize the 
+                    loss. <br>
+                    x - Input sample. <br>
+                    y - Output observed. <br>
+                    I - The total number of training examples.
+                </p>
+                <p>
+                    Now, If you are in the Machine Learning domain, you would have heard about 
+                    the term <i>i.i.d</i> (independent and identically distributed).
+                    We assume our data are <i>i.i.d</i>, which means, <br>
+                    independent - We multiply all the training examples in the above because of 
+                    our independence assumption. We assume each and every sample is independent 
+                    of each other. <br>
+                    identically distributed - This means we assume all the training samples
+                    in the current data comes from the same probability distribution.  
+                </p>
+                <p>
+                    The total likelihood for our whole dataset is the product of the 
+                    individual likelihoods. There is just one problem here. 
+                    Multiplying thousand of small probabilities together will create a
+                    ridiculously small number and can cause numerical underflow.
+                    So, we introduce log in the equation and convert the multiplcation to addition.
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                    \hat{\phi} &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \\
+                    &= \underset{\phi}{\operatorname{argmax}} \left[ \log \left( \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right) \right] \\
+                    &= \underset{\phi}{\operatorname{argmax}} \left[ \sum_{i=1}^{I} \log \left[ \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \right].
+                    \end{align*}
+                    $$
+                </p>
+                <p>
+                    So, why is this allowed? wouldn't it cause some harm?
+                    Actually, no. The logarithm is a monotonically increasing function
+                    which means if <code>a > b</code>, then, <code>log(a) > log(b)</code>.
+                    Because of this, the value of ϕ that maximizes the total likelihood
+                    will also maximize the log-likelihood.
+                </p>
+                <p>
+                    One final thing before we start to create our own loss function, 
+                    whether it's Machine Learning or Business, we generally think of minimizing 
+                    the loss. So, we convert the maximum log-likelihood criterion to a minimization
+                    problem by multiplying by minus one.
+                </p>
+                <p>
+                    $$
+                    \begin{align*}
+                    \hat{\phi} &= \underset{\phi}{\operatorname{argmin}} \left[ -\sum_{i=1}^{I} \log \left[ \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \right] \\
+                    &= \underset{\phi}{\operatorname{argmin}} \left[ L[\phi] \right],
+                    \end{align*}
+                    $$
+                </p>
+                <p>
+                    Now, we have the final loss function L.
+                </p>
+                <h2>
+                    Constructing our own loss functions
+                </h2>
+                <p>
+                    still in construction...
+                </p>
+            </div>
+    <script src="../script.js"></script>
+</body>
+</html>
