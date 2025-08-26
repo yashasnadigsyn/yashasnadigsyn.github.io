@@ -218,7 +218,7 @@
                     \begin{align*}
                     \hat{\phi} &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{x}_i) \right] \\
                     &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \boldsymbol{\theta}_i) \right] \\
-                    &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right].
+                    &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right]
                     \end{align*}
                     $$
                 </p>
@@ -257,7 +257,7 @@
                     \begin{align*}
                     \hat{\phi} &= \underset{\phi}{\operatorname{argmax}} \left[ \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \\
                     &= \underset{\phi}{\operatorname{argmax}} \left[ \log \left( \prod_{i=1}^{I} \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right) \right] \\
-                    &= \underset{\phi}{\operatorname{argmax}} \left[ \sum_{i=1}^{I} \log \left[ \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \right].
+                    &= \underset{\phi}{\operatorname{argmax}} \left[ \sum_{i=1}^{I} \log \left[ \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \right]
                     \end{align*}
                     $$
                 </p>
@@ -289,7 +289,252 @@
                     Constructing our own loss functions
                 </h2>
                 <p>
-                    still in construction...
+                    Now, that you have understood Maximum Likelihood Criterion.
+                    Creating your own loss functions is easy and just 4 step process:
+                </p>
+                <p>
+                    <ul>
+                        <li>
+                            Step 1: Choose a probability distribution <code>Pr(y|θ)</code>  that naturally 
+                            fits the type of data that your model will be giving.
+                            For example, if you are predicting a continous value, pick normal
+                            distribution. If you are predicting discrete classes like 'Cat', 
+                            'Dog' or 'Bird', pick categorical distribution.
+                        </li>
+                        <li>
+                            Step 2: Next, make the Machine Learning model f[x,ϕ] to predict the 
+                            distribution parameters, θ. Note, here, we are not directly predicting
+                            final answer, y. 
+                            So, for a given input x, the model's f[x,ϕ] output will be the 
+                            parameters θ that define the probability distribution.
+                            For example, if the probability distribution is normal, you can 
+                            make it to predict the mean (μ).
+                        </li>
+                        <li>
+                            Step 3: Next, we will train the model to find the model's parameters 
+                            ϕ, by minimizing the loss function, which is the NLL.
+                            So, 
+                            $$
+                            \theta = f[\mathbf{x}, \phi] \quad \\ \\
+                            \quad \operatorname{Pr}(\mathbf{y}|\theta) = \operatorname{Pr}(\mathbf{y}|f[\mathbf{x}, \phi]) \\ \\
+                            \hat{\phi} = \underset{\phi}{\operatorname{argmin}} \left[ L[\phi] \right] = \underset{\phi}{\operatorname{argmin}} \left[ -\sum_{i=1}^{I} \log \left[ \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i; \phi]) \right] \right]
+                            $$
+                        </li>
+                        <li>
+                            Step 4: Now, the model is ready to make predictions on a new data.
+                            when we give it a new input x, 
+                            we can simply return the value at the peak of the distribution. 
+                            This is the model's single best guess.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    That's it. You can now create a loss function for any of your problems.
+                    We will go over some examples below.
+                </p>
+                <h2>
+                    Example 1: Univarite Regression
+                </h2>
+                <p>
+                    In the univariate regression, we predict a single continuous number (y) 
+                    from some input (x).
+                    Following the steps from above, 
+                    Step 1: Choose a probability distribution. We are choosing a normal distribution
+                    here. It is defined by two parameters: mean (μ) and variance (σ2).
+                    Step 2: Make the Machine Learning model f[x,ϕ] to predict the distribution 
+                    parameters. 
+                    In this case, we will be predicting mean (μ).
+                </p>
+                <p>
+                    Step 3: Choose a loss function based on NLL and train the Machine Learning
+                    model to find the best model parameters ϕ on that loss function. 
+                    Here is a step by step process on how to do it: <br>
+                    This is the probability density function.
+                            $$
+                                \operatorname{Pr}(\mathbf{y}|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left[ -\frac{(\mathbf{y}-\mu)^2}{2\sigma^2} \right]  
+                            $$
+                            Since, we are computing the mean (μ) here, so, μ = f[x,ϕ]
+                            $$
+                                \operatorname{Pr}(\mathbf{y}|\mathbf{f}[\mathbf{x}, \phi], \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left[ -\frac{(\mathbf{y}-\mathbf{f}[\mathbf{x}, \phi])^2}{2\sigma^2} \right]
+                            $$
+                            The below is our NLL based on the normal distribution. This is what we
+                            want to minimize.
+                            $$
+                                \begin{align*}
+                                L[\phi] &= -\sum_{i=1}^{I} \log \left[ \operatorname{Pr}(\mathbf{y}_i | \mathbf{f}[\mathbf{x}_i, \phi], \sigma^2) \right] \\
+                                &= -\sum_{i=1}^{I} \log \left[ \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left[ -\frac{(\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2}{2\sigma^2} \right] \right]
+                                \end{align*}
+                            $$
+                            Since, we are trying to find the best possible parameters ϕ that minimize 
+                            the loss function. The two terms below in step 2 and step 4 can be 
+                            removed because it doesn't depend on ϕ. 
+                            But, doesn't it change the location of the minimum? Yes! It absolutely
+                            does and i will explain about it in the next section.
+                            $$
+                                \begin{align*}
+                                \hat{\phi} &= \underset{\phi}{\operatorname{argmin}} \left[ -\sum_{i=1}^{I} \log \left[ \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left[ -\frac{(\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2}{2\sigma^2} \right] \right] \right] \\
+                                &= \underset{\phi}{\operatorname{argmin}} \left[ -\sum_{i=1}^{I} \left( \log \left( \frac{1}{\sqrt{2\pi\sigma^2}} \right) - \frac{(\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2}{2\sigma^2} \right) \right] \\
+                                &= \underset{\phi}{\operatorname{argmin}} \left[ -\sum_{i=1}^{I} \left[ -\frac{(\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2}{2\sigma^2} \right] \right] \\
+                                &= \underset{\phi}{\operatorname{argmin}} \left[ \sum_{i=1}^{I} \frac{(\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2}{2\sigma^2} \right] \\
+                                &= \underset{\phi}{\operatorname{argmin}} \left[ \sum_{i=1}^{I} (\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2 \right]
+                                \end{align*}
+                            $$
+                            So, the final result is something we already know! <br>
+                            It is the least squares loss function!
+                            $$
+                                L[\phi] = \sum_{i=1}^{I} (\mathbf{y}_i - \mathbf{f}[\mathbf{x}_i, \phi])^2.
+                            $$
+                </p>
+                <p>
+                    Step 4: Once the model is trained, its output for a new input x is the 
+                    mean μ of the predicted Normal distribution. Since, the mean is the 
+                    highest point of the bell curve, it's the most probable value 
+                    and serves as our single best guess for the prediction.
+                </p>
+                <h3>
+                    Why are we ignoring the constant terms?
+                </h3>
+                <p>
+                    Consider these two functions:
+                            $$y = x^2$$
+                            $$y = x^2 + 5$$
+                </p>
+                <p>
+                    Let's look at their graphs: <br>
+                    <iframe src="https://www.desmos.com/calculator/e9x84ivein?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe> <br>
+                    As you can see, a constant can only shift the location of the minimum but 
+                    doesn't change the minimum itself.
+                    The minimum is still 0 for both the graphs but the location the minimum
+                    appears is different (0 and 5, respectively). <br>
+                    I hope you understood this part.
+                </p>
+                <h3>
+                    Why didn't we consider variance as another parameter?
+                </h3>
+                <p>
+                    If you have noticed above in the step 2, we ignored the variance as 
+                    a distribution parameter and focused only on finding the mean (μ).
+                    We assumed the variance is constant on the whole data. If you have been 
+                    in ML space for sometime, you might have heard the term homoscedasticity
+                    and heteroscedasticity.
+                    This is what homoscedastic mean. If we do not assume the variance is constant,
+                    then, it means the model is heteroscedastic.
+                </p>
+                <p>
+                    So, how does the loss function change if the model is heteroscedastic?
+                    To model this, we can design a network with two outputs: 
+                    one that predicts the mean (μ) and another that predicts the variance (σ2). 
+                    Since, the variance is a positive term, we will pass it to a squaring function.
+                    $$
+                        \begin{align*}
+                        \mu &= f_1[\mathbf{x}, \phi] \\ \\
+                        \sigma^2 &= f_2[\mathbf{x}, \phi]^2, \\
+                        \end{align*}
+                    $$
+                    Thus, the final loss function is,
+                    $$
+                        \hat{\phi} = \underset{\phi}{\operatorname{argmin}} \left[ -\sum_{i=1}^{I} \left[ \log \left( \frac{1}{\sqrt{2\pi f_2[\mathbf{x}_i, \phi]^2}} \right) - \frac{(\mathbf{y}_i - f_1[\mathbf{x}_i, \phi])^2}{2f_2[\mathbf{x}_i, \phi]^2} \right] \right]
+                    $$
+                    So, If you have been using the least squares loss function and if your 
+                    variance is not constant, then, your model is not good. 
+                    That's the reason why one of the assumption of linear regression is
+                    <a href="https://en.wikipedia.org/wiki/Homoscedasticity_and_heteroscedasticity">homoscedasticity</a>.
+                </p>
+                <p>
+                    During the inference time, should we output mean or variance? 
+                    The answer is obviously mean because it represents the peak of the bell curve. 
+                    So, what does variance tells us?
+                    It tells us the uncertainity of the prediction.
+                </p>
+                <h2>
+                    Example 2: Multiclass Classification
+                </h2>
+                <p>
+                    The goal of multiclass classification is to assign an input to one of K 
+                    possible categories.
+                    Let's say, you are trying to build a machine learning model that 
+                    classifies the idli into 'normal', 'rich' or 'luxury'.
+                    Here, K=3 and the output y must be one of these three labels. <br>
+                    <div style="text-align: center;">
+                        <img src="Idly_vada1.png" alt="Idly_vada1" width="200" height="200"> &nbsp;
+                        <img src="Idly_vada2.png" alt="Idly_vada2" width="200" height="200"> &nbsp;
+                        <img src="idly_vada4.png" alt="idly_vada4" width="200" height="200">
+                        <div class="image-caption"><br>Generated with ImageGen</div>
+                    </div>
+                </p>
+                <p>
+                    Step 1: Choose a distribution that can handle this. The perfect distribution
+                    for this is categorical distribution. It's defined by K parameters, which 
+                    we'll call λ1​,λ2​,...,λK​. Each parameter represents the probability of 
+                    one specific category.
+                </p>
+                <p>
+                    For our idli classifier, 
+                    <ul>
+                        <li>
+                            λ1​=Pr(y=’normal’)
+                        </li>
+                        <li>
+                            λ2​=Pr(y=’rich’)
+                        </li>
+                        <li>
+                            λ3​=Pr(y=’luxury’)
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Step 2: We will use a neural network f[x,ϕ], with K=3 outputs to 
+                    compute these probabilities. But, there's one problem here,
+                    the output will be a raw, unconstrained numbers. What if the 
+                    network output is like this: [0.8, 1.4, 2.5]?
+                    These are not probabilities because they aren't between 0 and 1, and 
+                    they don't sum to 1.
+                </p>
+                <p>
+                    But, to convert those 
+                    raw outputs into probabilities, we will use the 
+                    <a href="https://en.wikipedia.org/wiki/Softmax_function">softmax function</a>. 
+                    The softmax function converts a tuple of K real numbers into a 
+                    probability distribution of K possible outcomes.
+                    $$
+                        \operatorname{softmax}(z)_k = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}
+                    $$
+                    The likelihood that an input x has the label y=k is given by 
+                    applying softmax to the network's output:
+                    $$
+                        \operatorname{Pr}(\mathbf{y}=k|\mathbf{x}) = \operatorname{softmax}_k[\mathbf{f}[\mathbf{x}, \phi]] \\
+                    $$
+                </p>
+                <p>
+                    Step 3: We will use a loss function (NLL) here to train our Machine 
+                    Learning model. This is also known as <b>multiclass cross-entropy loss</b>.
+                    $$
+                        L[\phi] = -\sum_{i=1}^{I} \log \left[ \operatorname{softmax}_{y_i} \left[ \mathbf{f}[\mathbf{x}_i, \phi] \right] \right] \\
+                        = -\sum_{i=1}^{I} \left( f_{y_i}[\mathbf{x}_i, \phi] - \log \left[ \sum_{k'=1}^{K} \exp \left[ f_{k'}[\mathbf{x}_i, \phi] \right] \right] \right)
+                    $$
+                </p>
+                <p>
+                    Step 4: Once the model is trained, we give it a new idli image. 
+                    It computes the probabilities for each class. To make a single "best guess," 
+                    we simply choose the class with the highest probability.
+                </p>
+                <p>
+                    <div style="display: flex; align-items: center;">
+                        <img src="idly_vada5.png" alt="idly_vada5" width="200" height="200">
+                        <span style="margin-left: 20px;"> -> Model -> Luxury</span>
+                    </div>
+                </p>
+                <h2>
+                    Conclusion
+                </h2>
+                <p>
+                    And, that's how you create your own loss function for any type of usecases.
+                </p>
+                <h2>
+                    Reference
+                </h2>
+                <p>
+                    <a href="//udlbook.github.io/udlbook/">udlbook</a>
                 </p>
             </div>
     <script src="../script.js"></script>
