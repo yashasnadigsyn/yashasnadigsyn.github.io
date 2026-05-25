@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The lore of linear regression</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="prism.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <style>
+        .work-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .work-header {
+            margin-bottom: 2rem;
+        }
+
+        .work-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-meta {
+            display: flex;
+            align-items: center;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+
+        .work-date {
+            margin-right: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .work-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .work-content h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .work-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        pre {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        table th,
+        table td {
+            padding: 0.75rem;
+            border: 1px solid #444;
+        }
+
+        table th {
+            background-color: var(--secondary-bg);
+        }
+
+        a {
+            color: #444;
+        }
+        pre[class*="language-"],
+        code[class*="language-"] {
+            white-space: pre-wrap !important;
+            word-break: break-all; 
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <a href="../../blog.html" class="back-link">
+            <= Back to Blogs</a>
+                <div class="work-container">
+                    <article class="work-header">
+                        <h1 class="work-title">The lore of linear regression (Extension)</h1>
+                        <div class="work-meta">
+                            <span class="work-date">21 Mar 2026</span>
+                            <span class="tag">ML</span>
+                            <span class="tag">Stats</span>
+                            <span class="tag">Regularization</span>
+                        </div>
+                    </article>
+
+                    <div class="work-content">
+                        <p>
+                            So, last month, I wrote <a href="https://yashasnadigsyn.github.io/blogs/linear_regression_lore/linear_regression_lore.html">a blog on Linear Regression</a>.
+                            I tried to teach Linear Regression from first principles. It was fun to write and I wanted to continue writing blogs for two reasons:
+                            <ol>
+                                <li>So, anyone can learn from it.</li>
+                                <li>It also helps me to solidify my understanding.</li>
+                            </ol>
+                            I am thinking of writing this weekly from now on, My idea is to explain everything in ML starting from Linear Regression to Attentions to RL, if possible.
+                        </p>
+                        <p>
+                            Last blog, we discussed on linear regression itself. How it came, how it connects to MLE, why we use MSE, also, the assumptions of linear regression.
+                            In this blog, I want to talk about the extensions of Linear Regression. I will talk about Linear Basis Functions, Regularizations, Bias-Variance Tradeoff, etc..
+                        </p>
+                        <p>
+                            The problem with linear regression as we discussed is it is linear, meaning, it can only 
+                            capture linear relationships between the features and the target variable. 
+                            Consider the below plot, where the data points are generated from a non-linear function.
+                        </p>
+                        <img src="non_linear_data.png" alt="non linear data" class="work-image">
+                        <p class="image-caption">Non-linear Data with Linear Best Fit</p>
+                        <p>
+                            The data points are kinda U-shaped but the best fit line couldn't capture the data points well.
+                            So, to make our model fit the data better, we have to make it non-linear.
+                            To understand non-linearity, first, let's understand what linearity means. <br>
+                            In the simplest terms, linearity assumes that the relationship between 
+                            our input(x) and our output(y) is constant. 
+                            If we increase x by 1 unit, y always changes by a fixed amount. 
+                            On a graph, this is a straight line.
+                        </p>
+                        <img src="linearity_image.png" alt="Linearity Image" class="work-image">
+                        <p class="image-caption">Linearity</p>
+                        <p>
+                            As you see in the image, the slope is same at every point, which means the relationship between x and y is constant.
+                            Non-linearity occurs when the rate of change isn't constant. 
+                        </p>
+                        <p>
+                            To make our model capture these non-linear data points, we can do it two ways:
+                            <ol>
+                                <li>Make the architecture itself capture non-linear relationships.</li>
+                                <li>Transform the input features to create non-linear combinations.</li>
+                            </ol>
+                        </p>
+                        <p>
+                            The first one is what we do with Artificial Neural Networks (ANN). We make the architecture non-linear by adding non-linear activation functions.
+                            The second one is what we do in Linear Basis Functions.
+                            We transform the input features to create non-linear combinations.
+                        </p>
+                        <h2>Linear Basis Functions</h2>
+                        <p>
+                            In short, linear basis functions are:
+                            $$y(x,w) = w_0 + \sum_{j=1}^{M-1} w_j \phi_j(x)$$
+                            where phi(x) are the basis functions.
+                        </p>
+                        <p>
+                            We often add a addition dummy basis function phi_0(x) = 1 to account for the bias term w_0.
+                            So, the formula becomes:
+                            $$y(x,w) = w^T \phi(x)$$
+                            where, w = (w0, .. wM-1)^T and phi(x) = (phi0(x), .. phiM-1(x)).
+                        </p>
+                        <p>
+                            These basis functions can be anything, they can be polynomial, Gaussian, etc..
+                            Take for example, the polynomial basis functions. 
+                            We can transform our input features into polynomial features like:
+                            $$\phi_j(x) = x^j$$
+                            So, our model becomes:
+                            $$y(x,w) = w_0 + w_1 x + w_2 x^2 + ... + w_{M-1} x^{M-1}$$
+                            This allows our model to capture non-linear relationships between x and y.
+                            This is also called as polynomial regression.
+                        </p>
+                        <img src="polynomial_regression.png" alt="polynomial regression" class="work-image">
+                        <p>
+                            One problem with polynomial regression is, these are global functions of the input variable.
+                            So, changes in one part of the input space can affect the entire function, which can lead to overfitting.
+                        </p>
+                        <img src="polynomial_overfitting.png" alt="polynomial overfitting" class="work-image">
+                        <p>
+                            This can be solved by diving input space into smaller regions and fitting simple models to each region. 
+                            This is called as piecewise polynomial regression or spline regression.
+                            The formula for spline regression is:
+                            $$y(x,w) = w_0 + w_1 x + w_2 x^2 + ... + w_{M-1} x^{M-1} + \sum_{k=1}^{K} w_{M+k} (x - \xi_k)^p$$
+                            where, xi are the knot points that divide the input space into smaller regions.
+                        </p>
+                        <img src="regression_spline.png" alt="regression spline" class="work-image">
+                        <p>
+                            So, using the above basis functions, we can write a simple polynomial 
+                            regression code to fit the above non-linear data points, which we 
+                            introduced at the beginning of the blog.
+                        </p>
+                        <img src="polynomial_regression_fit.png" alt="polynomial regression fit" class="work-image">
+                        <p>
+                            So, by this point, you may have two doubts:
+                            <ol>
+                                <li>How is a linear model able to fit non-linear data points?</li>
+                                <li>Why is it still called linear model if it can fit non-linear data points?</li>
+                            </ol>
+                        </p>
+                        <p>
+                            I will explain them one by one.
+                        </p>
+                        <p>
+                            <b>How is a linear model able to fit non-linear data points?</b> <br>
+                            The reason is, we are transforming the input features into higher dimensions using the basis functions.
+                            So, in the original input space, the relationship between x and y is non-linear, but in the transformed feature space, the relationship is still linear.
+                            Take the image for example.
+                        </p>
+                        <img src="linear_basis_input_features.png" alt="linear basis input features" class="work-image">
+                        <p>
+                            Here, the basis function used is phi(x) = [1, x, x^2].
+                            So, we have transformed our 1D input feature x into a 2D feature space with features phi1(x) = x and phi2(x) = x^2.
+                            For example, take this simple dataset, y = x^2 + 1.
+                            <ol>
+                                <li>For x=1, y=2</li>
+                                <li>For x=2, y=5</li>
+                                <li>For x=3, y=10</li>
+                            </ol>
+                            We cannot fit a line to this data. So, we transform it with our 
+                            basis function, [1, x, x^2]. So, our new features become:
+                            <ol>
+                                <li>For x=1, phi(x) = [1, 1, 1]</li>
+                                <li>For x=2, phi(x) = [1, 2, 4]</li>
+                                <li>For x=3, phi(x) = [1, 3, 9]</li>
+                            </ol>
+                            So, the function becomes, 
+                            $$y = w_0 * 1 + w_1 * x + w_2 * x^2$$
+                            and if we train with a dataset, we will get w0 = 1, w1 = 0 and 
+                            w2 = 1, which is the equation of our original function.
+                            $$y = 1 * 1 + 0 * x + 1 * x^2 = x^2 + 1$$
+                        </p>
+                        <p>
+                            <b>Why is it still called linear model if it can fit non-linear data points?</b> <br>
+                            The reason is, the model is still linear in terms of the parameters w. 
+                            The non-linearity is only in terms of the input features, but the relationship between the parameters and the output is still linear.
+                            And, if you see the above image, the data points lie on a flat plane in the feature space.
+                            Only, the line has transformed into plane because we have two features now, phi1(x) and phi2(x).
+                            If we had say, 100 features, the data points would lie on a 100-dimensional hyperplane.
+                        </p>
+                        <h2>
+                            Regularization
+                        </h2>
+                    </div>
+                    <script src="../script.js"></script>
+                    <script src="prism.js"></script>
+</body>
+
+</html>
